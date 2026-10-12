@@ -1,6 +1,7 @@
 import { authStorage } from "@/utils/authStorage";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import { PersonService } from "@/services/PersonService";
 import type { IUserProfile } from "@/interfaces/IUserProfile";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -20,24 +21,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const refreshProfile = useCallback(async () => {
-    // setLoadingProfile(true);
-    // try {
-    //   const response = await UserService.getMe();
-    //   setProfile(response.data);
-    // } catch {
-    //   signOut();
-    // } finally {
-    //   setLoadingProfile(false);
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setLoadingProfile(true);
+    try {
+      const response = await PersonService.getMe();
+      setProfile(response.data);
+    } catch {
+      signOut();
+    } finally {
+      setLoadingProfile(false);
+    }
   }, [signOut]);
 
-  // Cada vez que hay token (login o refresh de página), se carga el perfil
   useEffect(() => {
     if (session.token) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       refreshProfile();
     } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoadingProfile(false);
     }
   }, [session.token, refreshProfile]);
