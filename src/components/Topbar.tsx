@@ -1,16 +1,10 @@
 import { Dropdown } from "antd";
-import type { MenuProps } from "antd";
-import {
-  DownOutlined,
-  UserOutlined,
-  IdcardOutlined,
-  SettingOutlined,
-  QuestionCircleOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { useAuthContext } from "@/context/useAuthContext";
 import { capitalize, getInitials } from "@/utils/string";
+import { getIcon } from "@/utils/getIcon";
+import type { MenuProps } from "antd";
 
 const MenuLabel = ({ text }: { text: string }) => (
   <div className="flex items-center justify-between gap-8">
@@ -24,24 +18,24 @@ export const Topbar = () => {
   const items: MenuProps["items"] = [
     {
       key: "account",
-      icon: <UserOutlined />,
+      icon: getIcon("user"),
       label: <MenuLabel text="Mi cuenta" />,
     },
     {
       key: "profile",
-      icon: <IdcardOutlined />,
+      icon: getIcon("idcard"),
       label: <MenuLabel text="Perfil" />,
     },
     { type: "divider" },
     {
       key: "help",
-      icon: <QuestionCircleOutlined />,
+      icon: getIcon("question"),
       label: <MenuLabel text="Ayuda y soporte" />,
     },
     { type: "divider" },
     {
       key: "logout",
-      icon: <LogoutOutlined />,
+      icon: getIcon("logout"),
       danger: true,
       label: <MenuLabel text="Cerrar sesión" />,
       onClick: () => {
@@ -61,7 +55,7 @@ export const Topbar = () => {
             "!shadow-none !bg-transparent !p-1.5 min-w-64 " +
             "[&_.ant-dropdown-menu-item]:!py-2 " +
             "[&_.ant-dropdown-menu-item]:!rounded-lg " +
-            "[&_.ant-dropdown-menu-item-icon]:!text-[15px] " +
+            "[&_.ant-dropdown-menu-item-icon]:!text-[17px] " +
             "[&_.ant-dropdown-menu-item-icon]:!mr-3",
         }}
         popupRender={(menu) => (
