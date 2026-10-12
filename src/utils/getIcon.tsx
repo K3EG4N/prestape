@@ -4,13 +4,7 @@ import {
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import {
-  CircleQuestionMarkIcon,
-  House,
-  Layers,
-  LogOut,
-  Users,
-} from "lucide-react";
+import { House, Layers, LogOut, Users } from "lucide-react";
 import type { ReactNode } from "react";
 
 export type IconVariant = "outlined" | "filled";
