@@ -1,6 +1,5 @@
+import { TOKEN_KEY } from "@/constants/storage";
 import axios, { AxiosError } from "axios";
-
-const TOKEN_KEY = "auth_token";
 
 export const httpClient = axios.create({
     baseURL: "http://localhost:8080/api",

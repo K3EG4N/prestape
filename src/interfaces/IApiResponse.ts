@@ -4,3 +4,11 @@ export interface IApiResponse<T = unknown> {
   message: string;
   value: T;
 }
+
+export interface IPageResponse<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}

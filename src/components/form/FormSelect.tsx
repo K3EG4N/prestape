@@ -14,29 +14,32 @@ interface FormSelectProps<T extends FieldValues> extends Omit<
 > {
   name: Path<T>;
   control: Control<T>;
-  options: { label: string; value: string }[];
+  options: { label: string; value: string | number }[];
   label: string;
+  required?: boolean;
 }
 
 export const FormSelect = <T extends FieldValues>({
   name,
   control,
   label,
+  required,
   size = "large",
   options,
+  ...selectProps
 }: FormSelectProps<T>) => {
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field label={label}>
+        <Field label={label} required={required}>
           <Form.Item
             validateStatus={fieldState.error ? "error" : ""}
             help={<FormFooterError message={fieldState.error?.message} />}
             style={{ width: "100%" }}
           >
-            <Select {...field} size={size} options={options} />
+            <Select {...field} {...selectProps} size={size} options={options} />
           </Form.Item>
         </Field>
       )}

@@ -18,7 +18,6 @@ export const RegisterForm = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        //   type: "student",
       },
       mode: "onTouched",
     });

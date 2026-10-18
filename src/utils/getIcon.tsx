@@ -1,18 +1,33 @@
 import {
+  CalendarOutlined,
+  CheckCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+  EyeOutlined,
   IdcardOutlined,
+  MoreOutlined,
   QuestionCircleOutlined,
+  SafetyOutlined,
   SettingOutlined,
+  SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { House, Layers, LogOut, Users } from "lucide-react";
+import {
+  House,
+  Layers,
+  LogOut,
+  RefreshCcw,
+  UserPlus,
+  Users,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 export type IconVariant = "outlined" | "filled";
 
-export const iconResolver: Record<
-  string,
-  Partial<Record<IconVariant, ReactNode>>
-> = {
+type IconEntry = Partial<Record<IconVariant, ReactNode>>;
+
+export const iconResolver = {
   users: {
     outlined: <Users size={22} />,
   },
@@ -39,7 +54,42 @@ export const iconResolver: Record<
       <LogOut size={18} strokeWidth={2} style={{ marginLeft: "1.5px" }} />
     ),
   },
-};
+  more: {
+    outlined: <MoreOutlined />,
+  },
+  view: {
+    outlined: <EyeOutlined />,
+  },
+  edit: {
+    outlined: <EditOutlined />,
+  },
+  delete: {
+    outlined: <DeleteOutlined />,
+  },
+  roles: {
+    outlined: <SafetyOutlined />,
+  },
+  profile: {
+    outlined: <SolutionOutlined />,
+  },
+  calendar: {
+    outlined: <CalendarOutlined />,
+  },
+  check: {
+    outlined: <CheckCircleOutlined />,
+  },
+  warning: {
+    outlined: <ExclamationCircleOutlined />,
+  },
+  refresh: {
+    outlined: <RefreshCcw size={16} />,
+  },
+  "user-add": {
+    outlined: <UserPlus size={16} />,
+  },
+} satisfies Record<string, IconEntry>;
+
+export type IconName = keyof typeof iconResolver;
 
 export const getIcon = (
   name: string | null,
@@ -47,5 +97,6 @@ export const getIcon = (
 ): ReactNode => {
   if (!name) return null;
 
-  return iconResolver[name]?.[variant] ?? iconResolver[name]?.outlined ?? null;
+  const entry = (iconResolver as Record<string, IconEntry>)[name];
+  return entry?.[variant] ?? entry?.outlined ?? null;
 };

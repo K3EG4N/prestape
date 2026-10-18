@@ -18,6 +18,7 @@ interface FormInputProps<T extends FieldValues> extends Omit<
   label: string;
   password?: boolean;
   rightlabel?: string | React.ReactNode;
+  required?: boolean;
 }
 
 export function FormInput<T extends FieldValues>({
@@ -25,6 +26,9 @@ export function FormInput<T extends FieldValues>({
   control,
   label,
   password,
+  rightlabel,
+  required,
+  onBlur,
   size = "large",
   ...inputProps
 }: FormInputProps<T>) {
@@ -35,13 +39,21 @@ export function FormInput<T extends FieldValues>({
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field label={label} rightlabel={inputProps.rightlabel}>
+        <Field label={label} rightlabel={rightlabel} required={required}>
           <Form.Item
             validateStatus={fieldState.error ? "error" : ""}
             help={<FormFooterError message={fieldState.error?.message} />}
             style={{ width: "100%" }}
           >
-            <Component {...inputProps} {...field} size={size} />
+            <Component
+              {...inputProps}
+              {...field}
+              onBlur={(event) => {
+                field.onBlur();
+                onBlur?.(event);
+              }}
+              size={size}
+            />
           </Form.Item>
         </Field>
       )}

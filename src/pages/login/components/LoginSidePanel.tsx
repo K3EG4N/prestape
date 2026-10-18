@@ -31,8 +31,8 @@ const STEPS: Step[] = [
 ];
 
 const ICON_SIZE = 56;
-const LINE_GAP = 12; // espacio entre el icono y el inicio/fin de la línea
-const STEP_INTERVAL = 0.5; // segundos entre cada step
+const LINE_GAP = 12;
+const STEP_INTERVAL = 0.5;
 const LINE_DURATION = 0.5;
 
 const animationStyles = `
@@ -217,8 +217,6 @@ export const LoginSidePanel = () => {
           </Typography.Paragraph>
         </div>
 
-        {/* 3 columnas iguales: el texto nunca se superpone porque cada uno
-            tiene su propia columna y hace wrap dentro de ella */}
         <div
           style={{
             display: "grid",

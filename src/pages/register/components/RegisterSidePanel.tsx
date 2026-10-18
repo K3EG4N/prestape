@@ -41,7 +41,7 @@ const PERKS: Perk[] = [
 ];
 
 const BORDER = "1px solid rgba(255,255,255,0.22)";
-const FIRST_PERK_DELAY = 0.2; // segundos
+const FIRST_PERK_DELAY = 0.2;
 const PERK_INTERVAL = 0.2;
 
 const animationStyles = `

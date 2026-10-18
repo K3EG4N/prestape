@@ -1,4 +1,4 @@
-const TOKEN_KEY = "auth_token";
+import { TOKEN_KEY } from "@/constants/storage";
 
 export const authStorage = {
   get: () => ({

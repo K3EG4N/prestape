@@ -1,5 +1,8 @@
 export interface IUserProfile {
-  id: number;
+  personId: number;
   fullName?: string;
   email?: string;
+  documentNumber?: string;
+  userId?: number;
+  roles?: string[];
 }
