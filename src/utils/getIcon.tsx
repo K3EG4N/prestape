@@ -1,4 +1,5 @@
 import {
+  AppstoreOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
   DeleteOutlined,
@@ -6,7 +7,10 @@ import {
   ExclamationCircleOutlined,
   EyeOutlined,
   IdcardOutlined,
+  InboxOutlined,
+  LaptopOutlined,
   MoreOutlined,
+  PlusOutlined,
   QuestionCircleOutlined,
   SafetyOutlined,
   SettingOutlined,
@@ -91,6 +95,18 @@ export const iconResolver = {
   },
   reactivate: {
     outlined: <UnlockOutlined />,
+  },
+  equipment: {
+    outlined: <LaptopOutlined />,
+  },
+  kits: {
+    outlined: <InboxOutlined />,
+  },
+  plus: {
+    outlined: <PlusOutlined />,
+  },
+  categories: {
+    outlined: <AppstoreOutlined />,
   },
   "user-add": {
     outlined: <UserPlus size={16} />,

@@ -4,6 +4,7 @@ import { useMenuItems } from "@/hooks/menu/useMenuItems";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SidebarSkeleton } from "./SiderbarSkeleton";
 import { SidebarItem } from "./SiderbarItem";
+import { getSection } from "@/utils/routes";
 
 const SETTINGS_URL = "/settings";
 
@@ -13,7 +14,7 @@ export const Sidebar = () => {
   const { menuItems, loading } = useMenuItems();
 
   const isItemActive = (url: string) =>
-    url === "/" ? pathname === "/" : pathname.startsWith(url);
+    getSection(pathname) === getSection(url);
 
   return (
     <aside className="w-15 h-full flex justify-center items-center">
