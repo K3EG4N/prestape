@@ -1,8 +1,10 @@
 import { AuthService } from "@/services/AuthService";
 import { useApiRequest } from "../useApiRequest";
+import { useAuthContext } from "@/context/useAuthContext";
 import type { IRegisterRequest } from "@/interfaces/IAuth";
 
 export const useRegister = () => {
+  const { signIn } = useAuthContext();
   const { execute, loading, parseError } = useApiRequest();
 
   const register = async (request: IRegisterRequest) => {
@@ -11,6 +13,10 @@ export const useRegister = () => {
         silent: true,
         throwOnError: true,
       });
+
+      if (response?.success) {
+        signIn(response.value.token);
+      }
 
       return { data: response, error: null, status: null };
     } catch (err) {

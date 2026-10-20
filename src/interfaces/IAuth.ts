@@ -25,7 +25,16 @@ export interface AuthContextValue {
   profile: IUserProfile | null;
   isAuthenticated: boolean;
   loadingProfile: boolean;
+  profileError: boolean;
   signIn: (token: string) => void;
   signOut: () => void;
-  refreshProfile: () => Promise<void>;
+  refreshProfile: (options?: IRefreshProfileOptions) => Promise<void>;
+}
+
+export interface IRefreshProfileOptions {
+  silent?: boolean;
+}
+
+export interface ICompleteProfileModalProps {
+  open: boolean;
 }

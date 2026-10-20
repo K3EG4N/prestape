@@ -1,13 +1,16 @@
+import axios from "axios";
 import { authStorage } from "@/utils/authStorage";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { PersonService } from "@/services/PersonService";
+import { MeService } from "@/services/MeService";
 import type { IUserProfile } from "@/interfaces/IUserProfile";
+import type { IRefreshProfileOptions } from "@/interfaces/IAuth";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState(() => authStorage.get());
   const [profile, setProfile] = useState<IUserProfile | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(!!session.token);
+  const [profileError, setProfileError] = useState(false);
 
   const signOut = useCallback(() => {
     authStorage.clear();
@@ -20,17 +23,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setSession({ token });
   }, []);
 
-  const refreshProfile = useCallback(async () => {
-    setLoadingProfile(true);
-    try {
-      const response = await PersonService.getMe();
-      setProfile(response.data);
-    } catch {
-      signOut();
-    } finally {
-      setLoadingProfile(false);
-    }
-  }, [signOut]);
+  const refreshProfile = useCallback(
+    async ({ silent = false }: IRefreshProfileOptions = {}) => {
+      if (!silent) setLoadingProfile(true);
+      setProfileError(false);
+      try {
+        const response = await MeService.getMe();
+        setProfile(response.value);
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.status === 401) {
+          signOut();
+        } else {
+          setProfileError(true);
+        }
+      } finally {
+        setLoadingProfile(false);
+      }
+    },
+    [signOut],
+  );
 
   useEffect(() => {
     if (session.token) {
@@ -47,11 +58,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       profile,
       isAuthenticated: !!session.token,
       loadingProfile,
+      profileError,
       signIn,
       signOut,
       refreshProfile,
     }),
-    [session, profile, loadingProfile, signIn, signOut, refreshProfile],
+    [
+      session,
+      profile,
+      loadingProfile,
+      profileError,
+      signIn,
+      signOut,
+      refreshProfile,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

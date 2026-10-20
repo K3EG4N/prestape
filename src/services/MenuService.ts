@@ -3,7 +3,7 @@ import { httpClient } from "./api/http-config";
 import type { IMenuItem } from "@/interfaces/IMenu";
 
 const getMenuItems = async () => {
-  const response = await httpClient.get<IApiResponse<IMenuItem[]>>("/menu-item");
+  const response = await httpClient.get<IApiResponse<IMenuItem[]>>("/menus");
   return response.data;
 };
 

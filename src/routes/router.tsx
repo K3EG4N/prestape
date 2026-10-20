@@ -4,6 +4,7 @@ import { RegisterPage } from "@/pages/register/RegisterPage";
 import { Hero } from "@/pages/Hero";
 import { UsersPage } from "@/pages/users/UsersPage";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import type { IRouteHandle } from "@/interfaces/IRoute";
 
 export const router = createBrowserRouter([
@@ -18,7 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "users",
         element: <UsersPage />,
-        handle: { breadcrumb: "Usuarios" } satisfies IRouteHandle,
+        handle: {
+          breadcrumb: "Usuarios",
+          roles: [ADMIN_ROLE, SUPERVISOR_ROLE],
+        } satisfies IRouteHandle,
       },
     ],
   },

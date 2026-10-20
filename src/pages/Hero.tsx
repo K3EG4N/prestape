@@ -1,6 +1,7 @@
 import { Sidebar } from "@/components/siderbar/Sidebar";
 import { Topbar } from "@/components/Topbar";
 import { Outlet } from "react-router-dom";
+import { RouteRoleGuard } from "@/components/auth/RouteRoleGuard";
 
 export const Hero = () => {
   return (
@@ -10,7 +11,9 @@ export const Hero = () => {
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
         <Topbar />
         <section className="-mx-2 min-h-0 flex-1 overflow-hidden px-2">
-          <Outlet />
+          <RouteRoleGuard>
+            <Outlet />
+          </RouteRoleGuard>
         </section>
       </div>
     </main>

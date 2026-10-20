@@ -1,25 +1,28 @@
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "@/context/useAuthContext";
-import { Spin } from "antd";
-import { Navigate } from "react-router-dom";
+import { ProfileGate } from "@/components/auth/ProfileGate";
+import { CompleteProfileModal } from "@/components/auth/CompleteProfileModal";
+import { HOME_PATH, LOGIN_PATH } from "@/constants/routes";
+import type { IProfileGateProps } from "@/interfaces/IRoute";
 
-export const ProtectedRoute = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const { isAuthenticated, loadingProfile } = useAuthContext();
-
-  if (loadingProfile) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <Spin />
-      </div>
-    );
-  }
+export const ProtectedRoute = ({ children }: IProfileGateProps) => {
+  const { isAuthenticated, profile } = useAuthContext();
+  const { pathname } = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={LOGIN_PATH} replace />;
   }
 
-  return children;
+  const profileIncomplete = !!profile && !profile.profileCompleted;
+
+  return (
+    <ProfileGate>
+      {profileIncomplete && pathname !== HOME_PATH ? (
+        <Navigate to={HOME_PATH} replace />
+      ) : (
+        children
+      )}
+      <CompleteProfileModal open={profileIncomplete} />
+    </ProfileGate>
+  );
 };

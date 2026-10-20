@@ -69,14 +69,14 @@ export const Topbar = () => {
       >
         <section className="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-white py-2 pl-2 pr-4 shadow-sm">
           <span className="flex size-9 items-center justify-center rounded-lg bg-blue-500 text-base font-semibold text-white">
-            {getInitials(profile?.fullName ?? "")}
+            {getInitials(profile?.person?.displayName ?? profile?.email ?? "")}
           </span>
           <div className="flex flex-col justify-center leading-tight">
             <span className="font-medium text-stone-800">
-              {profile?.fullName}
+              {profile?.person?.displayName ?? profile?.email}
             </span>
             <span className="text-xs text-stone-500">
-              {capitalize(profile?.roles?.[0] ?? "")}
+              {capitalize(profile?.roles[0]?.externalName ?? "")}
             </span>
           </div>
           <DownOutlined className="text-[10px] text-stone-400" />

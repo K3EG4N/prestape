@@ -41,7 +41,6 @@ const animationStyles = `
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* La línea se dibuja de izquierda a derecha, del step actual al siguiente */
   @keyframes auth-line-reveal {
     from { opacity: 0; clip-path: inset(0 100% 0 0); }
     to   { opacity: 1; clip-path: inset(0 0 0 0); }
