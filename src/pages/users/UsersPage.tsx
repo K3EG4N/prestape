@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { App, Button } from "antd";
+import { Button } from "antd";
 import { PageHeader } from "@/components/PageHeader";
 import { AppBreadcrumb } from "@/components/AppBreadcrumb";
 import { DataTable } from "@/components/table/DataTable";
@@ -8,24 +8,27 @@ import { useUsers } from "@/hooks/users/useUsers";
 import { useRoles } from "@/hooks/roles/useRoles";
 import { CreateUserModal } from "./modals/CreateUserModal";
 import { EditUserModal } from "./modals/EditUserModal";
+import { SuspendUserModal } from "./modals/SuspendUserModal";
+import { ReactivateUserModal } from "./modals/ReactivateUserModal";
 import { getUserColumns } from "./columns/userColumns";
 import { getIcon } from "@/utils/getIcon";
+import { USER_STATUS_FILTER_OPTIONS } from "@/constants/users";
 import type { IUser, IUserRowHandlers } from "@/interfaces/IUser";
 
 export const UsersPage = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
+  const [suspendingUser, setSuspendingUser] = useState<IUser | null>(null);
+  const [reactivatingUser, setReactivatingUser] = useState<IUser | null>(null);
   const { roles: roleOptions } = useRoles();
-  const { message } = App.useApp();
   const { data, pagination, filters, loading, changeFilter, reload } =
     useUsers();
 
-  const comingSoon = () => message.info("Próximamente");
-
   const handlers: IUserRowHandlers = {
     onEdit: setEditingUser,
-    onChangeRoles: comingSoon,
-    onDelete: comingSoon,
+    // onChangeRoles: comingSoon,
+    onSuspend: setSuspendingUser,
+    onReactivate: setReactivatingUser,
   };
 
   const columns = getUserColumns(handlers);
@@ -80,6 +83,16 @@ export const UsersPage = () => {
                 onChange: (value) => changeFilter("roles", value),
               },
               {
+                type: "options",
+                key: "statuses",
+                label: "Estado",
+                description: "Filtra por el estado de la cuenta",
+                icon: getIcon("check"),
+                options: USER_STATUS_FILTER_OPTIONS,
+                value: filters.statuses,
+                onChange: (value) => changeFilter("statuses", value),
+              },
+              {
                 type: "dateRange",
                 key: "createdAt",
                 label: "Fecha de registro",
@@ -103,6 +116,20 @@ export const UsersPage = () => {
         open={editingUser !== null}
         user={editingUser}
         onClose={() => setEditingUser(null)}
+        reload={reload}
+      />
+
+      <SuspendUserModal
+        open={suspendingUser !== null}
+        user={suspendingUser}
+        onClose={() => setSuspendingUser(null)}
+        reload={reload}
+      />
+
+      <ReactivateUserModal
+        open={reactivatingUser !== null}
+        user={reactivatingUser}
+        onClose={() => setReactivatingUser(null)}
         reload={reload}
       />
     </section>

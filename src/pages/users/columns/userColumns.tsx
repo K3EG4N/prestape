@@ -2,7 +2,7 @@ import { Tag } from "antd";
 import { EmptyValue } from "@/components/ui/EmptyValue";
 import { RowActions } from "@/components/table/RowActions";
 import { getIcon } from "@/utils/getIcon";
-import { USER_PROFILE_STATUS } from "@/constants/users";
+import { getUserStatusDisplay } from "@/utils/user";
 import { capitalize, formatPhone, getInitials } from "@/utils/string";
 import { formatDate } from "@/utils/date";
 import type { IDataTableColumn } from "@/interfaces/IDataTable";
@@ -76,11 +76,9 @@ export const getUserColumns = (
   },
   {
     title: "Estado",
-    key: "profileCompleted",
+    key: "status",
     render: (_, user) => {
-      const { label, icon, className } = user.profileCompleted
-        ? USER_PROFILE_STATUS.completed
-        : USER_PROFILE_STATUS.incomplete;
+      const { label, icon, className } = getUserStatusDisplay(user);
 
       return (
         <span
@@ -114,21 +112,18 @@ export const getUserColumns = (
             onClick: () => handlers.onEdit(user),
           },
           {
-            key: "roles",
-            label: "Cambiar roles",
-            icon: "roles",
-            onClick: () => handlers.onChangeRoles(user),
+            key: "suspend",
+            label: "Suspender",
+            icon: "suspend",
+            hidden: user.status === "SUSPENDED",
+            onClick: () => handlers.onSuspend(user),
           },
           {
-            key: "delete",
-            label: "Eliminar",
-            icon: "delete",
-            confirm: {
-              title: `¿Eliminar a ${user.person?.fullName ?? user.email}?`,
-              content: "El usuario ya no podrá acceder al sistema.",
-              okText: "Eliminar",
-            },
-            onClick: () => handlers.onDelete(user),
+            key: "reactivate",
+            label: "Reactivar",
+            icon: "reactivate",
+            hidden: user.status !== "SUSPENDED",
+            onClick: () => handlers.onReactivate(user),
           },
         ]}
       />

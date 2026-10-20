@@ -32,8 +32,24 @@ const update = async (id: number, request: IUpdateUserRequest) => {
   return response.data;
 };
 
+const suspend = async (id: number) => {
+  const response = await httpClient.put<IApiResponse>(`/users/${id}/suspend`);
+
+  return response.data;
+};
+
+const reactivate = async (id: number) => {
+  const response = await httpClient.put<IApiResponse>(
+    `/users/${id}/reactivate`,
+  );
+
+  return response.data;
+};
+
 export const UserService = {
   list,
   create,
   update,
+  suspend,
+  reactivate,
 };

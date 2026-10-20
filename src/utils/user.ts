@@ -1,4 +1,5 @@
 import type { EditUserSchema } from "@/schemas/user/edit.user.schema";
+import { USER_STATUS_DISPLAY } from "@/constants/users";
 import type { IUser } from "@/interfaces/IUser";
 
 export const toEditUserFormValues = (user: IUser): EditUserSchema => ({
@@ -12,3 +13,9 @@ export const toEditUserFormValues = (user: IUser): EditUserSchema => ({
     phone: user.person?.phone ?? "",
   },
 });
+
+export const getUserStatusDisplay = (user: IUser) => {
+  if (user.status === "SUSPENDED") return USER_STATUS_DISPLAY.suspended;
+  if (!user.profileCompleted) return USER_STATUS_DISPLAY.incomplete;
+  return USER_STATUS_DISPLAY.active;
+};

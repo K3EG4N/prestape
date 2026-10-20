@@ -1,22 +1,41 @@
 import { INITIAL_BASE_FILTERS } from "./filters";
-import type { ICreateUserStep, IUserFilters } from "@/interfaces/IUser";
+import type {
+  ICreateUserStep,
+  IUserFilters,
+  UserStatusFilter,
+} from "@/interfaces/IUser";
 import type { DefaultValues } from "react-hook-form";
 import type { CreateUserSchema } from "@/schemas/user/create.user.schema";
 
 export const INITIAL_USER_FILTERS: IUserFilters = {
   ...INITIAL_BASE_FILTERS,
   roles: [],
+  statuses: [],
   createdAt: null,
 };
 
-export const USER_PROFILE_STATUS = {
-  completed: { label: "Activo", icon: "check", className: "text-green-500" },
+export const USER_STATUS_DISPLAY = {
+  active: { label: "Activo", icon: "check", className: "text-green-500" },
   incomplete: {
     label: "Perfil incompleto",
     icon: "warning",
     className: "text-yellow-500",
   },
+  suspended: {
+    label: "Suspendido",
+    icon: "suspend",
+    className: "text-red-500",
+  },
 } as const;
+
+export const USER_STATUS_FILTER_OPTIONS: {
+  value: UserStatusFilter;
+  label: string;
+}[] = [
+  { value: "ACTIVE", label: USER_STATUS_DISPLAY.active.label },
+  { value: "INCOMPLETE", label: USER_STATUS_DISPLAY.incomplete.label },
+  { value: "SUSPENDED", label: USER_STATUS_DISPLAY.suspended.label },
+];
 
 export const CREATE_USER_STEPS: ICreateUserStep[] = [
   {

@@ -24,6 +24,7 @@ export const useUsers = () => {
     return {
       ...buildBaseRequest(page, size, filters),
       roles: filters.roles,
+      statuses: filters.statuses,
       createdFrom: createdAt.from,
       createdTo: createdAt.to,
     };

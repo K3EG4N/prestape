@@ -11,6 +11,8 @@ import {
   SafetyOutlined,
   SettingOutlined,
   SolutionOutlined,
+  StopOutlined,
+  UnlockOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
@@ -83,6 +85,12 @@ export const iconResolver = {
   },
   refresh: {
     outlined: <RefreshCcw size={16} />,
+  },
+  suspend: {
+    outlined: <StopOutlined />,
+  },
+  reactivate: {
+    outlined: <UnlockOutlined />,
   },
   "user-add": {
     outlined: <UserPlus size={16} />,
