@@ -3,7 +3,7 @@ import { EmptyValue } from "@/components/ui/EmptyValue";
 import { RowActions } from "@/components/table/RowActions";
 import { getIcon } from "@/utils/getIcon";
 import { getUserStatusDisplay } from "@/utils/user";
-import { capitalize, formatPhone, getInitials } from "@/utils/string";
+import { capitalize, formatPhone } from "@/utils/string";
 import { formatDate } from "@/utils/date";
 import type { IDataTableColumn } from "@/interfaces/IDataTable";
 import type { IUser, IUserRowHandlers } from "@/interfaces/IUser";
@@ -26,7 +26,7 @@ export const getUserColumns = (
     render: (_, user) => (
       <div className="flex gap-3 items-center">
         <div className="flex items-center justify-center size-10 min-w-10 min-h-10 bg-[#E6F4FF] text-blue-500 rounded font-medium">
-          {getInitials(user.person?.fullName ?? user.email)}
+          {`${user.person?.firstName?.charAt(0).toUpperCase()}${user.person?.paternalSurname?.charAt(0).toUpperCase()}`}
         </div>
         <div className="flex flex-col">
           <span className="font-medium">

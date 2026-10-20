@@ -48,9 +48,8 @@ export const UserAccountStep = ({ roleOptions }: IUserAccountStepProps) => {
       <FormSelect
         control={control}
         name="role"
-        label="Rol"
+        label="Tipo de usuario"
         required
-        placeholder="Seleccione un rol"
         options={roleOptions
           .filter((r) => r.name !== ADMIN_ROLE)
           .map((r) => ({ label: capitalize(r.externalName), value: r.id }))}
