@@ -48,6 +48,7 @@ export function DataTable<T>({
   const [localPageSize, setLocalPageSize] = useState(defaultPageSize);
   const [query, setQuery] = useState("");
   const searchTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   const isServer = !!pagination;
   const isServerSearch = !!onSearchChange;
@@ -68,13 +69,20 @@ export function DataTable<T>({
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const current = Math.min(pagination?.page ?? localPage, totalPages);
 
+  useEffect(() => {
+    bodyRef.current?.scrollTo({ top: 0 });
+  }, [current, pageSize]);
+
+  const startIndex = (current - 1) * pageSize;
+
   const rows = useMemo(
     () =>
-      isServer
-        ? filtered
-        : filtered.slice((current - 1) * pageSize, current * pageSize),
-    [isServer, filtered, current, pageSize],
+      isServer ? filtered : filtered.slice(startIndex, startIndex + pageSize),
+    [isServer, filtered, startIndex, pageSize],
   );
+
+  const rangeStart = rows.length > 0 ? startIndex + 1 : 0;
+  const rangeEnd = startIndex + rows.length;
 
   const getKey = (row: T, index: number): string | number => {
     const k = typeof rowKey === "function" ? rowKey(row) : row[rowKey];
@@ -168,52 +176,57 @@ export function DataTable<T>({
           </table>
         </div>
 
-        <div className="relative min-h-0 flex-1 overflow-y-auto scrollbar-gutter-stable">
+        <div className="relative flex min-h-0 flex-1 flex-col">
           {loading && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60">
               <Spin />
             </div>
           )}
-          <table className="w-full table-fixed border-collapse text-left text-sm">
-            {colgroup}
-            <tbody>
-              {rows.length === 0 && !loading ? (
-                <tr>
-                  <td colSpan={columns.length} className="px-5 py-10">
-                    <Empty
-                      image={Empty.PRESENTED_IMAGE_SIMPLE}
-                      description={
-                        query ? "Sin resultados" : "Sin registros"
-                      }
-                    />
-                  </td>
-                </tr>
-              ) : (
-                rows.map((row, rowIndex) => (
-                  <tr
-                    key={getKey(row, rowIndex)}
-                    className="border-b border-stone-100 transition-colors last:border-b-0 hover:bg-stone-50"
-                  >
-                    {columns.map((col) => (
-                      <td
-                        key={col.key}
-                        className={`px-5 py-3 text-stone-800 ${col.className ?? ""} ${col.align ? alignmentClasses[col.align] : ""}`}
-                      >
-                        {renderCell(col, row, rowIndex)}
-                      </td>
-                    ))}
+          <div
+            ref={bodyRef}
+            className="min-h-0 flex-1 overflow-y-auto scrollbar-gutter-stable"
+          >
+            <table className="w-full table-fixed border-collapse text-left text-sm">
+              {colgroup}
+              <tbody>
+                {rows.length === 0 && !loading ? (
+                  <tr>
+                    <td colSpan={columns.length} className="px-5 py-10">
+                      <Empty
+                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        description={query ? "Sin resultados" : "Sin registros"}
+                      />
+                    </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  rows.map((row, rowIndex) => (
+                    <tr
+                      key={getKey(row, rowIndex)}
+                      className="border-b border-stone-100 transition-colors last:border-b-0 hover:bg-stone-50"
+                    >
+                      {columns.map((col) => (
+                        <td
+                          key={col.key}
+                          className={`px-5 py-3 text-stone-800 ${col.className ?? ""} ${col.align ? alignmentClasses[col.align] : ""}`}
+                        >
+                          {renderCell(col, row, startIndex + rowIndex)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <footer className="grid grid-cols-1 items-center gap-3 border-t border-stone-200 px-5 py-3 text-sm text-stone-500 sm:grid-cols-[1fr_auto_1fr]">
           <p>
             Mostrando{" "}
-            <b className="font-semibold text-stone-800">{rows.length}</b> de{" "}
-            <b className="font-semibold text-stone-800">{total}</b> registros
+            <b className="font-semibold text-stone-800">
+              {rangeStart} - {rangeEnd}
+            </b>{" "}
+            de <b className="font-semibold text-stone-800">{total}</b> registros
             {enableSearch &&
               !isServer &&
               total !== data.length &&
@@ -235,8 +248,8 @@ export function DataTable<T>({
               aria-label="Filas por página"
               value={pageSize}
               onChange={handlePageSize}
-              options={pageSizeOptions.map((n) => ({ value: n, label: n }))}
-              className="w-20"
+              options={pageSizeOptions.map((n) => ({ value: n, label: `${n} registros` }))}
+              className="w-fit"
             />
           </div>
         </footer>
