@@ -10,13 +10,12 @@ export const categoryColumns: IDataTableColumn<ICategory>[] = [
     width: "w-16",
     align: "center",
   },
-  { key: "name", title: "Categoría", dataIndex: "name", className: "w-1/4" },
+  { key: "name", title: "Categoría", dataIndex: "name" },
   { key: "description", title: "Descripción", dataIndex: "description" },
   {
     key: "equipmentCount",
     title: "Equipos",
     dataIndex: "equipmentCount",
-    width: "w-28",
     align: "center",
   },
 ];
