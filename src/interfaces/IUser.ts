@@ -44,6 +44,8 @@ export interface IUserListRequest extends IBaseListRequest {
   createdTo?: string;
 }
 
+export type IUserFilterParams = Omit<IUserListRequest, "page" | "size">;
+
 export interface ICreateUserRequest {
     email: string;
     password: string;

@@ -5,8 +5,7 @@ import { useAbortController } from "../useAbortController";
 import { usePagination } from "../usePagination";
 import { INITIAL_USER_FILTERS } from "@/constants/users";
 import { EMPTY_PAGE } from "@/constants/pagination";
-import { buildBaseRequest } from "@/utils/request";
-import { toInstantRange } from "@/utils/date";
+import { buildUserFilterParams } from "@/utils/user";
 import type { IPageResponse } from "@/interfaces/IApiResponse";
 import type { IUser, IUserFilters, IUserListRequest } from "@/interfaces/IUser";
 
@@ -18,17 +17,10 @@ export const useUsers = () => {
   const [filters, setFilters] = useState<IUserFilters>(INITIAL_USER_FILTERS);
   const [data, setData] = useState<IPageResponse<IUser>>(EMPTY_PAGE);
 
-  const request = useMemo<IUserListRequest>(() => {
-    const createdAt = toInstantRange(filters.createdAt);
-
-    return {
-      ...buildBaseRequest(page, size, filters),
-      roles: filters.roles,
-      statuses: filters.statuses,
-      createdFrom: createdAt.from,
-      createdTo: createdAt.to,
-    };
-  }, [page, size, filters]);
+  const request = useMemo<IUserListRequest>(
+    () => ({ page, size, ...buildUserFilterParams(filters) }),
+    [page, size, filters],
+  );
 
   const fetchUsers = useCallback(async () => {
     const signal = renewSignal();

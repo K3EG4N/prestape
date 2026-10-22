@@ -5,6 +5,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
+  FileExcelOutlined,
   EyeOutlined,
   IdcardOutlined,
   InboxOutlined,
@@ -20,6 +21,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import {
+  CloudDownload,
   House,
   Layers,
   LogOut,
@@ -110,6 +112,9 @@ export const iconResolver = {
   },
   "user-add": {
     outlined: <UserPlus size={16} />,
+  },
+  download: {
+    outlined: <CloudDownload size={16} />,
   },
 } satisfies Record<string, IconEntry>;
 

@@ -3,6 +3,7 @@ import type {
   ICreateUserRequest,
   IUpdateUserRequest,
   IUser,
+  IUserFilterParams,
   IUserListRequest,
 } from "@/interfaces/IUser";
 import { httpClient } from "./api/http-config";
@@ -46,10 +47,24 @@ const reactivate = async (id: number) => {
   return response.data;
 };
 
+const exportExcel = async (params: IUserFilterParams) => {
+  const response = await httpClient.get<Blob>("/users/export", {
+    params,
+    paramsSerializer: { indexes: null },
+    responseType: "blob",
+  });
+
+  return {
+    blob: response.data,
+    disposition: response.headers["content-disposition"] as string | undefined,
+  };
+};
+
 export const UserService = {
   list,
   create,
   update,
   suspend,
   reactivate,
+  exportExcel,
 };
