@@ -1,11 +1,14 @@
 import {
   AppstoreOutlined,
+  AudioOutlined,
   CalendarOutlined,
+  CameraOutlined,
   CheckCircleOutlined,
+  ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
-  FileExcelOutlined,
+  HistoryOutlined,
   EyeOutlined,
   IdcardOutlined,
   InboxOutlined,
@@ -17,12 +20,15 @@ import {
   SettingOutlined,
   SolutionOutlined,
   StopOutlined,
+  SwapOutlined,
   UnlockOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
   CloudDownload,
+  Columns3,
   House,
+  Keyboard,
   Layers,
   LogOut,
   RefreshCcw,
@@ -115,6 +121,27 @@ export const iconResolver = {
   },
   download: {
     outlined: <CloudDownload size={16} />,
+  },
+  columns: {
+    outlined: <Columns3 size={16} />,
+  },
+  loans: {
+    outlined: <SwapOutlined />,
+  },
+  clock: {
+    outlined: <ClockCircleOutlined />,
+  },
+  history: {
+    outlined: <HistoryOutlined />,
+  },
+  camera: {
+    outlined: <CameraOutlined />,
+  },
+  audio: {
+    outlined: <AudioOutlined />,
+  },
+  keyboard: {
+    outlined: <Keyboard size={16} />,
   },
 } satisfies Record<string, IconEntry>;
 

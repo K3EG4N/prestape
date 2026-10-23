@@ -57,12 +57,14 @@ export const getUserColumns = (
   {
     title: "Celular",
     key: "phone",
+    hideable: true,
     render: (_, user) =>
       user.person ? formatPhone(user.person.phone) : <EmptyValue />,
   },
   {
     title: "Rol",
     key: "roles",
+    hideable: true,
     className: "w-1/6",
     render: (_, user) => (
       <div className="flex flex-wrap gap-1">
@@ -77,6 +79,7 @@ export const getUserColumns = (
   {
     title: "Estado",
     key: "status",
+    hideable: true,
     render: (_, user) => {
       const { label, icon, className } = getUserStatusDisplay(user);
 
@@ -94,6 +97,7 @@ export const getUserColumns = (
     title: "Registro",
     dataIndex: "createdAt",
     key: "createdAt",
+    hideable: true,
     render: (_, user) => formatDate(user.createdAt),
   },
   {

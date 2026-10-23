@@ -12,6 +12,8 @@ import {
   PAGE_SIZE_OPTIONS,
 } from "@/constants/pagination";
 import { SEARCH_DEBOUNCE_MS } from "@/constants/table";
+import { useColumnVisibility } from "@/hooks/useColumnVisibility";
+import { ColumnSettings } from "./ColumnSettings";
 
 const alignmentClasses = {
   start: "text-start",
@@ -31,7 +33,7 @@ function renderCell<T>(
 
 export function DataTable<T>({
   data,
-  columns,
+  columns: allColumns,
   rowKey = "key" as keyof T,
   pageSizeOptions = PAGE_SIZE_OPTIONS,
   defaultPageSize = DEFAULT_PAGE_SIZE,
@@ -43,7 +45,14 @@ export function DataTable<T>({
   loading = false,
   pagination,
   onSearchChange,
+  columnSettingsKey,
 }: IDataTableProps<T>) {
+  const {
+    visibleColumns: columns,
+    hiddenKeys,
+    toggle,
+    reset,
+  } = useColumnVisibility(allColumns, columnSettingsKey);
   const [localPage, setLocalPage] = useState(1);
   const [localPageSize, setLocalPageSize] = useState(defaultPageSize);
   const [query, setQuery] = useState("");
@@ -58,11 +67,13 @@ export function DataTable<T>({
     const q = normalize(query.trim());
     if (!enableSearch || isServerSearch || !q) return data;
 
-    const fields = columns.flatMap((c) => (c.dataIndex ? [c.dataIndex] : []));
+    const fields = allColumns.flatMap((c) =>
+      c.dataIndex ? [c.dataIndex] : [],
+    );
     return data.filter((row) =>
       fields.some((f) => normalize(row[f]).includes(q)),
     );
-  }, [data, columns, query, enableSearch, isServerSearch]);
+  }, [data, allColumns, query, enableSearch, isServerSearch]);
 
   const pageSize = pagination?.size ?? localPageSize;
   const total = pagination?.total ?? filtered.length;
@@ -115,7 +126,8 @@ export function DataTable<T>({
     );
   };
 
-  const showToolbar = !!leftActions || !!rightActions || enableSearch;
+  const showToolbar =
+    !!leftActions || !!rightActions || enableSearch || !!columnSettingsKey;
 
   const colgroup = (
     <colgroup>
@@ -147,6 +159,14 @@ export function DataTable<T>({
               />
             )}
             {rightActions}
+            {columnSettingsKey && (
+              <ColumnSettings
+                columns={allColumns}
+                hiddenKeys={hiddenKeys}
+                onToggle={toggle}
+                onReset={reset}
+              />
+            )}
           </div>
         </div>
       )}

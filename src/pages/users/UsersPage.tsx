@@ -51,6 +51,7 @@ export const UsersPage = () => {
         data={data.content}
         columns={columns}
         rowKey={(u) => u.id}
+        columnSettingsKey="users"
         loading={loading}
         onSearchChange={(value) => changeFilter("search", value)}
         pagination={{ ...pagination, total: data.totalElements }}
