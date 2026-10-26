@@ -12,13 +12,13 @@ export const CATALOG_TABS: ICatalogTabOption[] = [
     icon: "equipment",
     createLabel: "Crear equipo",
   },
-  { label: "Kits", value: "kits", icon: "kits", createLabel: "Crear kit" },
   {
     label: "Categorías",
     value: "categories",
     icon: "categories",
     createLabel: "Crear categoría",
   },
+  { label: "Kits", value: "kits", icon: "kits", createLabel: "Crear kit" },
 ];
 
 export const KIT_VISIBLE_ITEMS = 2;

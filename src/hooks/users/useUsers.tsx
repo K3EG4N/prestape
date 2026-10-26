@@ -10,9 +10,9 @@ import type { IPageResponse } from "@/interfaces/IApiResponse";
 import type { IUser, IUserFilters, IUserListRequest } from "@/interfaces/IUser";
 
 export const useUsers = () => {
+  const pagination = usePagination();
   const { execute, loading } = useApiRequest();
   const { renewSignal } = useAbortController();
-  const pagination = usePagination();
   const { page, size, resetPage } = pagination;
   const [filters, setFilters] = useState<IUserFilters>(INITIAL_USER_FILTERS);
   const [data, setData] = useState<IPageResponse<IUser>>(EMPTY_PAGE);
