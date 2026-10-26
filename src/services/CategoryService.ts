@@ -3,6 +3,7 @@ import type { IBaseListRequest } from "@/interfaces/IBaseFilter";
 import type { IApiResponse, IPageResponse } from "@/interfaces/IApiResponse";
 import type {
   ICategory,
+  ICategoryOption,
   IUpdateCategoryRequest,
 } from "@/interfaces/ICatalog";
 
@@ -16,6 +17,13 @@ const list = async (request: IBaseListRequest, signal?: AbortSignal) => {
     },
   );
 
+  return response.data;
+};
+
+const options = async () => {
+  const response = await httpClient.get<IApiResponse<ICategoryOption[]>>(
+    "/equipment-categories/options",
+  );
   return response.data;
 };
 
@@ -36,6 +44,7 @@ const remove = async (id: number) => {
 
 export const CategoryService = {
   list,
+  options,
   update,
   remove,
 };

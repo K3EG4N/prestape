@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { PageHeader } from "@/components/PageHeader";
 import { AppBreadcrumb } from "@/components/AppBreadcrumb";
 import { DataTable } from "@/components/table/DataTable";
-import { CATALOG_TABS, MOCK_EQUIPMENT, MOCK_KITS } from "@/constants/catalog";
+import { CATALOG_TABS, MOCK_KITS } from "@/constants/catalog";
 import { CATALOG_PATH } from "@/constants/routes";
 import { getIcon } from "@/utils/getIcon";
 import { kitColumns } from "./columns/kitColumns";
-import { equipmentColumns } from "./columns/equipmentColumns";
 import { CategoryPage } from "./category/CategoryPage";
+import { EquipmentPage } from "./equipment/EquipmentPage";
 import type { CatalogTab, ICatalogPageProps } from "@/interfaces/ICatalog";
 
 export const CatalogPage = ({ tab }: ICatalogPageProps) => {
@@ -43,16 +43,7 @@ export const CatalogPage = ({ tab }: ICatalogPageProps) => {
   const renderTable = () => {
     switch (tab) {
       case "equipment":
-        return (
-          <DataTable
-            enableSearch
-            searchPlaceholder="Buscar por código, nombre o serie..."
-            data={MOCK_EQUIPMENT}
-            columns={equipmentColumns}
-            rowKey={(item) => item.id}
-            leftActions={createButton}
-          />
-        );
+        return <EquipmentPage />;
       case "kits":
         return (
           <DataTable

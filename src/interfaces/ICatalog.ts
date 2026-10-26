@@ -19,10 +19,6 @@ export interface ICatalogItem {
   available: boolean;
 }
 
-export interface IEquipment extends ICatalogItem {
-  category: string;
-}
-
 export interface IKit extends ICatalogItem {
   items: string[];
 }
@@ -32,6 +28,12 @@ export interface ICategory {
   name: string;
   description: string | null;
   equipmentCount: number;
+}
+
+export interface ICategoryOption {
+  id: number;
+  name: string;
+  description: string | null;
 }
 
 export interface IUpdateCategoryRequest {
