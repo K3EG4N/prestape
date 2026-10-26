@@ -3,17 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { PageHeader } from "@/components/PageHeader";
 import { AppBreadcrumb } from "@/components/AppBreadcrumb";
 import { DataTable } from "@/components/table/DataTable";
-import {
-  CATALOG_TABS,
-  MOCK_CATEGORIES,
-  MOCK_EQUIPMENT,
-  MOCK_KITS,
-} from "@/constants/catalog";
+import { CATALOG_TABS, MOCK_EQUIPMENT, MOCK_KITS } from "@/constants/catalog";
 import { CATALOG_PATH } from "@/constants/routes";
 import { getIcon } from "@/utils/getIcon";
-import { equipmentColumns } from "./columns/equipmentColumns";
 import { kitColumns } from "./columns/kitColumns";
-import { categoryColumns } from "./columns/categoryColumns";
+import { equipmentColumns } from "./columns/equipmentColumns";
+import { CategoryPage } from "./category/CategoryPage";
 import type { CatalogTab, ICatalogPageProps } from "@/interfaces/ICatalog";
 
 export const CatalogPage = ({ tab }: ICatalogPageProps) => {
@@ -70,16 +65,7 @@ export const CatalogPage = ({ tab }: ICatalogPageProps) => {
           />
         );
       case "categories":
-        return (
-          <DataTable
-            enableSearch
-            searchPlaceholder="Buscar categoría..."
-            data={MOCK_CATEGORIES}
-            columns={categoryColumns}
-            rowKey={(category) => category.id}
-            leftActions={createButton}
-          />
-        );
+        return <CategoryPage />;
     }
   };
 
