@@ -9,6 +9,7 @@ export interface IDataTableColumn<T> {
   className?: string;
   width?: string;
   align?: "start" | "center" | "end";
+  hideable?: boolean;
 }
 
 export interface IDataTablePagination
@@ -30,4 +31,12 @@ export interface IDataTableProps<T> {
   loading?: boolean;
   pagination?: IDataTablePagination;
   onSearchChange?: (value: string) => void;
+  columnSettingsKey?: string;
+}
+
+export interface IColumnSettingsProps<T> {
+  columns: IDataTableColumn<T>[];
+  hiddenKeys: string[];
+  onToggle: (key: string) => void;
+  onReset: () => void;
 }
