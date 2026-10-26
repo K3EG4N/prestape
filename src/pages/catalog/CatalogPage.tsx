@@ -1,30 +1,17 @@
-import { App, Button, Tabs } from "antd";
+import { Tabs } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "@/components/PageHeader";
 import { AppBreadcrumb } from "@/components/AppBreadcrumb";
-import { DataTable } from "@/components/table/DataTable";
-import { CATALOG_TABS, MOCK_KITS } from "@/constants/catalog";
+import { CATALOG_TABS } from "@/constants/catalog";
 import { CATALOG_PATH } from "@/constants/routes";
 import { getIcon } from "@/utils/getIcon";
-import { kitColumns } from "./columns/kitColumns";
 import { CategoryPage } from "./category/CategoryPage";
 import { EquipmentPage } from "./equipment/EquipmentPage";
+import { KitPage } from "./kit/KitPage";
 import type { CatalogTab, ICatalogPageProps } from "@/interfaces/ICatalog";
 
 export const CatalogPage = ({ tab }: ICatalogPageProps) => {
   const navigate = useNavigate();
-  const { message } = App.useApp();
-  const createLabel = CATALOG_TABS.find((t) => t.value === tab)?.createLabel;
-
-  const createButton = (
-    <Button
-      type="primary"
-      icon={getIcon("plus")}
-      onClick={() => message.info("Próximamente")}
-    >
-      {createLabel}
-    </Button>
-  );
 
   const tabs = (
     <Tabs
@@ -45,16 +32,7 @@ export const CatalogPage = ({ tab }: ICatalogPageProps) => {
       case "equipment":
         return <EquipmentPage />;
       case "kits":
-        return (
-          <DataTable
-            enableSearch
-            searchPlaceholder="Buscar por código, nombre o serie..."
-            data={MOCK_KITS}
-            columns={kitColumns}
-            rowKey={(kit) => kit.id}
-            leftActions={createButton}
-          />
-        );
+        return <KitPage />;
       case "categories":
         return <CategoryPage />;
     }

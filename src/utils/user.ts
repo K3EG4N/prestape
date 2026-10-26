@@ -19,7 +19,9 @@ export const toEditUserFormValues = (user: IUser): EditUserSchema => ({
   },
 });
 
-export const getUserStatusDisplay = (user: IUser) => {
+export const getUserStatusDisplay = (
+  user: Pick<IUser, "status" | "profileCompleted">,
+) => {
   if (user.status === "SUSPENDED") return USER_STATUS_DISPLAY.suspended;
   if (!user.profileCompleted) return USER_STATUS_DISPLAY.incomplete;
   return USER_STATUS_DISPLAY.active;

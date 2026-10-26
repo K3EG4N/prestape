@@ -11,10 +11,10 @@ import {
   HistoryOutlined,
   EyeOutlined,
   IdcardOutlined,
-  InboxOutlined,
   LaptopOutlined,
   MoreOutlined,
   PlusOutlined,
+  ProductOutlined,
   QuestionCircleOutlined,
   SafetyOutlined,
   SettingOutlined,
@@ -108,7 +108,7 @@ export const iconResolver = {
     outlined: <LaptopOutlined />,
   },
   kits: {
-    outlined: <InboxOutlined />,
+    outlined: <ProductOutlined />,
   },
   plus: {
     outlined: <PlusOutlined />,

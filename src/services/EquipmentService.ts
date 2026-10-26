@@ -4,6 +4,7 @@ import type {
   ICreateEquipmentRequest,
   IEquipment,
   IEquipmentListRequest,
+  IEquipmentOption,
   IUpdateEquipmentRequest,
 } from "@/interfaces/IEquipment";
 
@@ -16,6 +17,14 @@ const list = async (request: IEquipmentListRequest, signal?: AbortSignal) => {
     signal,
   });
 
+  return response.data;
+};
+
+const options = async (kitId?: number) => {
+  const response = await httpClient.get<IApiResponse<IEquipmentOption[]>>(
+    "/equipments/options",
+    { params: { kitId } },
+  );
   return response.data;
 };
 
@@ -39,6 +48,7 @@ const remove = async (id: number) => {
 
 export const EquipmentService = {
   list,
+  options,
   create,
   update,
   remove,

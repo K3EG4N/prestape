@@ -3,11 +3,12 @@ import { LoginPage } from "@/pages/login/LoginPage";
 import { RegisterPage } from "@/pages/register/RegisterPage";
 import { Hero } from "@/pages/Hero";
 import { UsersPage } from "@/pages/users/UsersPage";
-import { CatalogPage } from "@/pages/catalog/CatalogPage";
+import { HomePage } from "@/pages/home/HomePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { CATALOG_PATH } from "@/constants/routes";
 import type { IRouteHandle } from "@/interfaces/IRoute";
+import { CatalogPage } from "@/pages/catalog/CatalogPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
       {
         path: "users",
         element: <UsersPage />,

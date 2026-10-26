@@ -27,6 +27,12 @@ export interface IEquipment {
   createdAt: string;
 }
 
+export interface IEquipmentOption {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface IEquipmentFilters extends IBaseFilters {
   categoryIds: string[];
   availabilities: string[];

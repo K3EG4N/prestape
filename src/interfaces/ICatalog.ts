@@ -7,20 +7,6 @@ export interface ICatalogTabOption {
   label: string;
   value: CatalogTab;
   icon: IconName;
-  createLabel: string;
-}
-
-export interface ICatalogItem {
-  id: number;
-  code: string;
-  serial: string;
-  name: string;
-  description: string;
-  available: boolean;
-}
-
-export interface IKit extends ICatalogItem {
-  items: string[];
 }
 
 export interface ICategory {
