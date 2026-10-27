@@ -30,7 +30,9 @@ export const INVENTORY_SEGMENT_COLORS: Record<EquipmentAvailability, string> = {
   RETIRED: DASHBOARD_COLORS.muted,
 };
 
-export const CATEGORY_VISIBLE_ITEMS = 2;
+export const CATEGORY_VISIBLE_ITEMS = 4;
+
+export const RECENT_USERS_VISIBLE = 4;
 
 export const LOAN_WARNING_DAYS = 2;
 

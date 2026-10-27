@@ -1,44 +1,47 @@
-import { Button, Empty, Spin } from "antd";
+import { Button, Empty } from "antd";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { CompactTable } from "@/components/dashboard/CompactTable";
-import { useAdminDashboard } from "@/hooks/dashboard/useAdminDashboard";
 import { FEATURES } from "@/constants/features";
+import { DASHBOARD_COLORS } from "@/constants/dashboard";
 import { CATALOG_PATH } from "@/constants/routes";
 import { getIcon } from "@/utils/getIcon";
+import { AdminDashboardSkeleton } from "./AdminDashboardSkeleton";
 import { InventoryStatusCard } from "./InventoryStatusCard";
 import { UsersSummaryCard } from "./UsersSummaryCard";
 import { LoanTrendChart } from "./LoanTrendChart";
 import { TopEquipmentCard } from "./TopEquipmentCard";
 import { DueReturnsTodayCard } from "./DueReturnsTodayCard";
 import { attentionColumns, categoryStockColumns } from "./columns/adminColumns";
+import type { IAdminDashboardProps } from "@/interfaces/IDashboard";
 
 const percent = (value: number, total: number) =>
   total ? Math.round((value / total) * 100) : 0;
 
-export const AdminDashboard = () => {
-  const { data, loading, reload } = useAdminDashboard();
+export const AdminDashboard = ({
+  data,
+  loading,
+  failed,
+  reload,
+}: IAdminDashboardProps) => {
+  if (loading || (!data && !failed)) return <AdminDashboardSkeleton />;
 
   if (!data) {
     return (
       <div className="flex h-full items-center justify-center">
-        {loading ? (
-          <Spin />
-        ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description="No se pudo cargar el resumen"
-          >
-            <Button icon={getIcon("refresh")} onClick={reload}>
-              Reintentar
-            </Button>
-          </Empty>
-        )}
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="No se pudo cargar el resumen"
+        >
+          <Button icon={getIcon("refresh")} onClick={reload}>
+            Reintentar
+          </Button>
+        </Empty>
       </div>
     );
   }
 
-  const { equipment, kits, categories, users, attention } = data;
+  const { equipment, kits, categories, users, attention, trends } = data;
   const available = equipment.byAvailability.AVAILABLE;
 
   return (
@@ -48,7 +51,12 @@ export const AdminDashboard = () => {
           label="Equipos registrados"
           icon={getIcon("equipment")}
           value={equipment.total}
-          caption={`En ${categories.length} categorías`}
+          trend={trends.equipment}
+          caption={
+            trends.equipment != null
+              ? "vs mes anterior"
+              : `En ${categories.length} categorías`
+          }
         />
         <StatCard
           label="Equipos disponibles"
@@ -82,13 +90,21 @@ export const AdminDashboard = () => {
               </span>
             </>
           }
-          caption="Listos para prestar"
+          trend={trends.kits}
+          caption={
+            trends.kits != null ? "kits vs mes anterior" : "Listos para prestar"
+          }
         />
         <StatCard
-          label="Usuarios activos"
+          label="Usuarios registrados"
           icon={getIcon("users")}
-          value={users.active}
-          caption={`${users.newThisMonth} nuevos este mes`}
+          value={users.total}
+          trend={trends.users}
+          caption={
+            trends.users != null
+              ? "vs mes anterior"
+              : `${users.newThisMonth} nuevos este mes`
+          }
         />
       </div>
 
@@ -118,7 +134,9 @@ export const AdminDashboard = () => {
           bodyClassName="overflow-y-auto"
           footer={
             <>
-              {getIcon("warning")}
+              <span style={{ color: DASHBOARD_COLORS.primary }}>
+                {getIcon("warning")}
+              </span>
               Equipos dañados o en mantenimiento
             </>
           }
@@ -130,10 +148,12 @@ export const AdminDashboard = () => {
               rowKey={(item) => item.id}
             />
           ) : (
-            <Empty
-              image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description="Todos los equipos están en buen estado"
-            />
+            <div className="flex h-full items-center justify-center">
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="Todos los equipos están en buen estado"
+              />
+            </div>
           )}
         </DashboardCard>
 

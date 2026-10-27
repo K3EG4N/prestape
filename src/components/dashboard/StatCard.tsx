@@ -1,6 +1,12 @@
 import { Card } from "antd";
 import type { IStatCardProps } from "@/interfaces/IDashboard";
 
+const trendClass = (trend: number) => {
+  if (trend > 0) return "text-green-600";
+  if (trend < 0) return "text-red-500";
+  return "text-stone-400";
+};
+
 export const StatCard = ({
   label,
   value,
@@ -16,12 +22,10 @@ export const StatCard = ({
           <div className="mt-0.5 text-2xl leading-tight font-bold text-stone-900">
             {value}
           </div>
-          {(caption || trend !== undefined) && (
+          {(caption || trend != null) && (
             <div className="mt-0.5 truncate text-xs text-stone-400">
-              {trend !== undefined && (
-                <span
-                  className={`mr-1 font-medium ${trend >= 0 ? "text-green-600" : "text-red-500"}`}
-                >
+              {trend != null && (
+                <span className={`mr-1 font-medium ${trendClass(trend)}`}>
                   {trend > 0 ? "+" : ""}
                   {trend}%
                 </span>

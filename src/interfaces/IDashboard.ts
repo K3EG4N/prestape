@@ -9,7 +9,7 @@ export interface IStatCardProps {
   value: ReactNode;
   icon: ReactNode;
   caption?: ReactNode;
-  trend?: number;
+  trend?: number | null;
 }
 
 export interface IDashboardCardProps {
@@ -147,12 +147,19 @@ export interface IAttentionEquipment {
   conditionNotes: string | null;
 }
 
+export interface IAdminTrends {
+  equipment: number | null;
+  kits: number | null;
+  users: number | null;
+}
+
 export interface IAdminDashboard {
   equipment: IAdminEquipmentSummary;
   kits: IAdminKitSummary;
   categories: ICategoryStock[];
   users: IAdminUserSummary;
   attention: IAttentionEquipment[];
+  trends: IAdminTrends;
 }
 
 export interface IInventoryStatusCardProps {
@@ -162,4 +169,17 @@ export interface IInventoryStatusCardProps {
 
 export interface IUsersSummaryCardProps {
   users: IAdminUserSummary;
+}
+
+export interface IAdminDashboardProps {
+  data: IAdminDashboard | null;
+  loading: boolean;
+  failed: boolean;
+  reload: () => void;
+}
+
+export interface IDashboardRefreshProps {
+  updatedAt: Date | null;
+  loading: boolean;
+  onRefresh: () => void;
 }
