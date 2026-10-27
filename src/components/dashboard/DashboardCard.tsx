@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Card, Divider } from "antd";
 import { Link } from "react-router-dom";
 import type { IDashboardCardProps } from "@/interfaces/IDashboard";
 
@@ -24,10 +24,13 @@ export const DashboardCard = ({
     >
       <div className={`min-h-0 flex-1 ${bodyClassName}`}>{children}</div>
       {(footer || footerExtra) && (
-        <div className="mt-3 flex items-center justify-between gap-3 text-xs text-stone-400">
-          <div className="flex items-center gap-1.5">{footer}</div>
-          {footerExtra && <div className="text-stone-500">{footerExtra}</div>}
-        </div>
+        <>
+         <Divider size="small" style={{ margin: "0" }} />
+          <div className="mt-3 flex items-center justify-between gap-3 text-xs text-stone-400">
+            <div className="flex items-center gap-1.5">{footer}</div>
+            {footerExtra && <div className="text-stone-500">{footerExtra}</div>}
+          </div>
+        </>
       )}
     </Card>
   );

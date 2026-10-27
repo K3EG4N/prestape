@@ -50,7 +50,7 @@ export const UsersSummaryCard = ({ users }: IUsersSummaryCardProps) => {
 
             return (
               <li key={user.id} className="flex items-center gap-3 py-1.5">
-                <Avatar size={28} style={AVATAR_STYLE} className="shrink-0">
+                <Avatar size={28} shape="square" style={AVATAR_STYLE} className="shrink-0">
                   {getInitials(displayName)}
                 </Avatar>
                 <div className="min-w-0 flex-1">

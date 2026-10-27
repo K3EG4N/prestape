@@ -4,17 +4,11 @@ import {
   DASHBOARD_COLORS,
   INVENTORY_SEGMENT_COLORS,
 } from "@/constants/dashboard";
-import {
-  EQUIPMENT_AVAILABILITY_DISPLAY,
-  EQUIPMENT_CONDITION_DISPLAY,
-} from "@/constants/equipment";
+import { EQUIPMENT_AVAILABILITY_DISPLAY } from "@/constants/equipment";
 import { CATALOG_PATH } from "@/constants/routes";
 import { getIcon } from "@/utils/getIcon";
 import type { IInventoryStatusCardProps } from "@/interfaces/IDashboard";
-import type {
-  EquipmentAvailability,
-  EquipmentCondition,
-} from "@/interfaces/IEquipment";
+import type { EquipmentAvailability } from "@/interfaces/IEquipment";
 
 export const InventoryStatusCard = ({
   equipment,
@@ -29,22 +23,11 @@ export const InventoryStatusCard = ({
     color: INVENTORY_SEGMENT_COLORS[availability],
   }));
 
-  const conditions = (
-    Object.keys(EQUIPMENT_CONDITION_DISPLAY) as EquipmentCondition[]
-  )
-    .map(
-      (condition) =>
-        `${equipment.byCondition[condition]} ${EQUIPMENT_CONDITION_DISPLAY[condition].label.toLowerCase()}`,
-    )
-    .join(" · ");
-
   const lowestStock = categories
     .filter((category) => category.total > 0)
-    .reduce<(typeof categories)[number] | null>(
-      (lowest, category) =>
-        !lowest || category.available < lowest.available ? category : lowest,
-      null,
-    );
+    .reduce<
+      (typeof categories)[number] | null
+    >((lowest, category) => (!lowest || category.available < lowest.available ? category : lowest), null);
 
   return (
     <DashboardCard
@@ -73,7 +56,6 @@ export const InventoryStatusCard = ({
         equipos registrados
       </div>
       <BreakdownBar segments={segments} />
-      <div className="text-xs text-stone-400">{conditions}</div>
     </DashboardCard>
   );
 };

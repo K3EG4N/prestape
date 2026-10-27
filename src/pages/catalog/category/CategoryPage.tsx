@@ -53,6 +53,13 @@ export const CategoryPage = () => {
             <Button icon={getIcon("refresh")} onClick={reload}>
               Actualizar
             </Button>
+            <Button
+              icon={getIcon("download")}
+              loading={false}
+              onClick={() => {}}
+            >
+              Exportar
+            </Button>
           </>
         }
       />

@@ -7,7 +7,7 @@ export const BreakdownBar = ({ segments }: IBreakdownBarProps) => {
     total ? Math.round((value / total) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 mb-3">
       <div className="flex h-3 gap-0.5 overflow-hidden rounded-full">
         {segments.map((segment) => (
           <Tooltip

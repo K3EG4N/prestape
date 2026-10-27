@@ -20,7 +20,7 @@ export const getKitColumns = (
   {
     key: "name",
     title: "Kit",
-    className: "w-1/4",
+    className: "w-80",
     render: (_, kit) => (
       <div className="flex flex-col">
         <span className="font-medium">{kit.name}</span>
@@ -42,7 +42,7 @@ export const getKitColumns = (
   {
     key: "items",
     title: "Contenido",
-    className: "w-1/4",
+    className: "w-150",
     render: (_, kit) => {
       const visible = kit.items.slice(0, KIT_VISIBLE_ITEMS);
       const hidden = kit.items.slice(KIT_VISIBLE_ITEMS);
