@@ -3,12 +3,15 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "@/routes/router";
 import { App } from "antd";
 import { AuthProvider } from "./context/AuthProvider";
+import { ThemeProvider } from "./context/ThemeProvider";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
-  <App>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
-  </App>,
+  <ThemeProvider>
+    <App>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </App>
+  </ThemeProvider>,
 );

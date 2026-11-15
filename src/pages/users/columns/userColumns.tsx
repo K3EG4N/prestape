@@ -25,7 +25,7 @@ export const getUserColumns = (
     className: "w-1/5",
     render: (_, user) => (
       <div className="flex gap-3 items-center">
-        <div className="flex items-center justify-center size-10 min-w-10 min-h-10 bg-[#E6F4FF] text-blue-500 rounded font-medium">
+        <div className="flex items-center justify-center size-10 min-w-10 min-h-10 bg-blue-50 text-blue-500 rounded font-medium">
           {`${user.person?.firstName?.charAt(0).toUpperCase()}${user.person?.paternalSurname?.charAt(0).toUpperCase()}`}
         </div>
         <div className="flex flex-col">

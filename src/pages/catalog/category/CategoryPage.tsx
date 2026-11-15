@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button } from "antd";
 import { DataTable } from "@/components/table/DataTable";
 import { useCategories } from "@/hooks/category/useCategories";
+import { useExportExcel } from "@/hooks/useExportExcel";
+import { CategoryService } from "@/services/CategoryService";
 import { useAuthContext } from "@/context/useAuthContext";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { hasAnyRole } from "@/utils/auth";
@@ -14,7 +16,11 @@ import type { ICategory, ICategoryRowHandlers } from "@/interfaces/ICatalog";
 
 export const CategoryPage = () => {
   const { profile } = useAuthContext();
-  const { data, loading, reload, onChangeSearch } = useCategories();
+  const { data, filter, loading, reload, onChangeSearch } = useCategories();
+  const { exportExcel, loading: exporting } = useExportExcel(
+    CategoryService.exportExcel,
+    "categorias.xlsx",
+  );
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<ICategory | null>(
     null,
@@ -53,13 +59,15 @@ export const CategoryPage = () => {
             <Button icon={getIcon("refresh")} onClick={reload}>
               Actualizar
             </Button>
-            <Button
-              icon={getIcon("download")}
-              loading={false}
-              onClick={() => {}}
-            >
-              Exportar
-            </Button>
+            {canManage && (
+              <Button
+                icon={getIcon("download")}
+                loading={exporting}
+                onClick={() => exportExcel({ search: filter.search || undefined })}
+              >
+                Exportar
+              </Button>
+            )}
           </>
         }
       />

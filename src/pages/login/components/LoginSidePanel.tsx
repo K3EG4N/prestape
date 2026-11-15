@@ -200,7 +200,7 @@ export const LoginSidePanel = () => {
           >
             Escoge el equipo y
             <br />
-            recógelo al toque.
+            recógelo en la fecha acordada.
           </Typography.Title>
           <Typography.Paragraph
             style={{

@@ -1,7 +1,9 @@
-import type { IKit, IKitFilters } from "@/interfaces/IKit";
+import type { IKit, IKitFilterParams, IKitFilters } from "@/interfaces/IKit";
 import type { EditKitSchema } from "@/schemas/kit/edit.kit.schema";
 
-export const buildKitFilterParams = (filters: IKitFilters) => ({
+export const buildKitFilterParams = (
+  filters: IKitFilters,
+): IKitFilterParams => ({
   search: filters.search || undefined,
   availabilities: filters.availabilities,
 });

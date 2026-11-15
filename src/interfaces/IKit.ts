@@ -33,6 +33,8 @@ export interface IKitListRequest extends IBaseListRequest {
   availabilities?: string[];
 }
 
+export type IKitFilterParams = Omit<IKitListRequest, "page" | "size">;
+
 export interface ICreateKitRequest {
   name: string;
   description?: string;

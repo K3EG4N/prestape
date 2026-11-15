@@ -3,10 +3,13 @@ import { Button } from "antd";
 import { DataTable } from "@/components/table/DataTable";
 import { FilterDropdown } from "@/components/table/filters/FilterDropdown";
 import { useKits } from "@/hooks/kit/useKits";
+import { useExportExcel } from "@/hooks/useExportExcel";
+import { KitService } from "@/services/KitService";
 import { useAuthContext } from "@/context/useAuthContext";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { KIT_AVAILABILITY_OPTIONS } from "@/constants/kit";
 import { hasAnyRole } from "@/utils/auth";
+import { buildKitFilterParams } from "@/utils/kit";
 import { getIcon } from "@/utils/getIcon";
 import { getKitColumns } from "./columns/kitColumns";
 import { CreateKitModal } from "./modals/CreateKitModal";
@@ -18,6 +21,10 @@ export const KitPage = () => {
   const { profile } = useAuthContext();
   const { data, pagination, filters, loading, changeFilter, reload } =
     useKits();
+  const { exportExcel, loading: exporting } = useExportExcel(
+    KitService.exportExcel,
+    "kits.xlsx",
+  );
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [editingKit, setEditingKit] = useState<IKit | null>(null);
   const [deletingKit, setDeletingKit] = useState<IKit | null>(null);
@@ -53,13 +60,15 @@ export const KitPage = () => {
             <Button icon={getIcon("refresh")} onClick={reload}>
               Actualizar
             </Button>
-            <Button
-              icon={getIcon("download")}
-              loading={false}
-              onClick={() => {}}
-            >
-              Exportar
-            </Button>
+            {canManage && (
+              <Button
+                icon={getIcon("download")}
+                loading={exporting}
+                onClick={() => exportExcel(buildKitFilterParams(filters))}
+              >
+                Exportar
+              </Button>
+            )}
           </>
         }
         rightActions={

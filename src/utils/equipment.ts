@@ -1,7 +1,13 @@
-import type { IEquipment, IEquipmentFilters } from "@/interfaces/IEquipment";
+import type {
+  IEquipment,
+  IEquipmentFilterParams,
+  IEquipmentFilters,
+} from "@/interfaces/IEquipment";
 import type { EditEquipmentSchema } from "@/schemas/equipment/edit.equipment.schema";
 
-export const buildEquipmentFilterParams = (filters: IEquipmentFilters) => ({
+export const buildEquipmentFilterParams = (
+  filters: IEquipmentFilters,
+): IEquipmentFilterParams => ({
   search: filters.search || undefined,
   categoryIds: filters.categoryIds,
   availabilities: filters.availabilities,

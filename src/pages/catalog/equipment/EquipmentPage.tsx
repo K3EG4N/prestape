@@ -4,6 +4,8 @@ import { DataTable } from "@/components/table/DataTable";
 import { FilterDropdown } from "@/components/table/filters/FilterDropdown";
 import { useEquipments } from "@/hooks/equipment/useEquipments";
 import { useCategoryOptions } from "@/hooks/category/useCategoryOptions";
+import { useExportExcel } from "@/hooks/useExportExcel";
+import { EquipmentService } from "@/services/EquipmentService";
 import { useAuthContext } from "@/context/useAuthContext";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import {
@@ -11,6 +13,7 @@ import {
   EQUIPMENT_CONDITION_OPTIONS,
 } from "@/constants/equipment";
 import { hasAnyRole } from "@/utils/auth";
+import { buildEquipmentFilterParams } from "@/utils/equipment";
 import { getIcon } from "@/utils/getIcon";
 import { getEquipmentColumns } from "./columns/equipmentColumns";
 import { CreateEquipmentModal } from "./modals/CreateEquipmentModal";
@@ -26,6 +29,10 @@ export const EquipmentPage = () => {
   const { data, pagination, filters, loading, changeFilter, reload } =
     useEquipments();
   const { categories } = useCategoryOptions();
+  const { exportExcel, loading: exporting } = useExportExcel(
+    EquipmentService.exportExcel,
+    "equipos.xlsx",
+  );
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [editingEquipment, setEditingEquipment] = useState<IEquipment | null>(
     null,
@@ -65,13 +72,15 @@ export const EquipmentPage = () => {
             <Button icon={getIcon("refresh")} onClick={reload}>
               Actualizar
             </Button>
-            <Button
-              icon={getIcon("download")}
-              loading={false}
-              onClick={() => {}}
-            >
-              Exportar
-            </Button>
+            {canManage && (
+              <Button
+                icon={getIcon("download")}
+                loading={exporting}
+                onClick={() => exportExcel(buildEquipmentFilterParams(filters))}
+              >
+                Exportar
+              </Button>
+            )}
           </>
         }
         rightActions={
