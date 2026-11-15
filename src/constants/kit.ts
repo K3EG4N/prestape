@@ -7,7 +7,7 @@ import type {
 } from "@/interfaces/IKit";
 import type { CreateKitSchema } from "@/schemas/kit/create.kit.schema";
 
-export const KIT_VISIBLE_ITEMS = 2;
+export const KIT_VISIBLE_ITEMS = 4;
 
 export const INITIAL_KIT_FILTERS: IKitFilters = {
   ...INITIAL_BASE_FILTERS,

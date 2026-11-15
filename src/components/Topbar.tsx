@@ -59,7 +59,7 @@ export const Topbar = () => {
             "[&_.ant-dropdown-menu-item-icon]:!mr-3",
         }}
         popupRender={(menu) => (
-          <div className="overflow-hidden rounded-xl border border-stone-200 bg-white shadow-lg">
+          <div className="overflow-hidden rounded-xl border border-stone-200 bg-surface shadow-lg">
             {menu}
             <div className="border-t border-stone-100 p-1.5">
               <ThemeSwitch />
@@ -67,7 +67,7 @@ export const Topbar = () => {
           </div>
         )}
       >
-        <section className="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-white py-2 pl-2 pr-4 shadow-sm">
+        <section className="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-surface py-2 pl-2 pr-4 shadow-sm">
           <span className="flex size-9 items-center justify-center rounded-lg bg-blue-500 text-base font-semibold text-white">
             {getInitials(profile?.person?.displayName ?? profile?.email ?? "")}
           </span>

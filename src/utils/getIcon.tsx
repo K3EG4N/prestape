@@ -31,6 +31,7 @@ import {
   Keyboard,
   Layers,
   LogOut,
+  Package,
   RefreshCcw,
   UserPlus,
   Users,
@@ -142,6 +143,9 @@ export const iconResolver = {
   },
   keyboard: {
     outlined: <Keyboard size={16} />,
+  },
+  package: {
+    outlined: <Package strokeWidth={1.5} size={17}/>,
   },
 } satisfies Record<string, IconEntry>;
 

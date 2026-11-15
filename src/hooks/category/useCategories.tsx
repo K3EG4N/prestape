@@ -41,5 +41,11 @@ export const useCategories = () => {
     setFilter((prev) => ({ ...prev, search: value }));
   };
 
-  return { data, loading, reload: fetchEquipmentCategories, onChangeSearch };
+  return {
+    data,
+    filter,
+    loading,
+    reload: fetchEquipmentCategories,
+    onChangeSearch,
+  };
 };

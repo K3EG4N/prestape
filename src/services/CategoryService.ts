@@ -1,6 +1,10 @@
 import { httpClient } from "./api/http-config";
 import type { IBaseListRequest } from "@/interfaces/IBaseFilter";
-import type { IApiResponse, IPageResponse } from "@/interfaces/IApiResponse";
+import type {
+  IApiResponse,
+  IFileResponse,
+  IPageResponse,
+} from "@/interfaces/IApiResponse";
 import type {
   ICategory,
   ICategoryOption,
@@ -42,9 +46,23 @@ const remove = async (id: number) => {
   return response.data;
 };
 
+const exportExcel = async (params: Pick<IBaseListRequest, "search">): Promise<IFileResponse> => {
+  const response = await httpClient.get<Blob>("/equipment-categories/export", {
+    params,
+    paramsSerializer: { indexes: null },
+    responseType: "blob",
+  });
+
+  return {
+    blob: response.data,
+    disposition: response.headers["content-disposition"] as string | undefined,
+  };
+};
+
 export const CategoryService = {
   list,
   options,
+  exportExcel,
   update,
   remove,
 };

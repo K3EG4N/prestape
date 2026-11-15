@@ -1,8 +1,13 @@
 import { httpClient } from "./api/http-config";
-import type { IApiResponse, IPageResponse } from "@/interfaces/IApiResponse";
+import type {
+  IApiResponse,
+  IFileResponse,
+  IPageResponse,
+} from "@/interfaces/IApiResponse";
 import type {
   ICreateKitRequest,
   IKit,
+  IKitFilterParams,
   IKitListRequest,
   IUpdateKitRequest,
 } from "@/interfaces/IKit";
@@ -35,8 +40,22 @@ const remove = async (id: number) => {
   return response.data;
 };
 
+const exportExcel = async (params: IKitFilterParams): Promise<IFileResponse> => {
+  const response = await httpClient.get<Blob>("/kits/export", {
+    params,
+    paramsSerializer: { indexes: null },
+    responseType: "blob",
+  });
+
+  return {
+    blob: response.data,
+    disposition: response.headers["content-disposition"] as string | undefined,
+  };
+};
+
 export const KitService = {
   list,
+  exportExcel,
   create,
   update,
   remove,

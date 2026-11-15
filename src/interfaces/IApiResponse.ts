@@ -5,6 +5,11 @@ export interface IApiResponse<T = unknown> {
   value: T;
 }
 
+export interface IFileResponse {
+  blob: Blob;
+  disposition?: string;
+}
+
 export interface IPageResponse<T> {
   content: T[];
   page: number;

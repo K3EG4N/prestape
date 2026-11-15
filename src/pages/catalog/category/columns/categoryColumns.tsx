@@ -18,6 +18,7 @@ export const getCategoryColumns = (
   {
     key: "name",
     title: "Categoría",
+    width: "w-84",
     dataIndex: "name",
   },
   {

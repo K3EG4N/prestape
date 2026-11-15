@@ -1,27 +1,26 @@
 import { useState } from "react";
 import { App } from "antd";
-import { UserService } from "@/services/UserService";
-import { buildUserFilterParams } from "@/utils/user";
 import {
   downloadBlob,
   getFilenameFromDisposition,
   readBlobErrorMessage,
 } from "@/utils/download";
-import type { IUserFilters } from "@/interfaces/IUser";
+import type { IFileResponse } from "@/interfaces/IApiResponse";
 
-export const useExportUsers = () => {
+export const useExportExcel = <P,>(
+  request: (params: P) => Promise<IFileResponse>,
+  fallbackFilename: string,
+) => {
   const { message } = App.useApp();
   const [loading, setLoading] = useState(false);
 
-  const exportUsers = async (filters: IUserFilters) => {
+  const exportExcel = async (params: P) => {
     setLoading(true);
     try {
-      const { blob, disposition } = await UserService.exportExcel(
-        buildUserFilterParams(filters),
-      );
+      const { blob, disposition } = await request(params);
       downloadBlob(
         blob,
-        getFilenameFromDisposition(disposition, "usuarios.xlsx"),
+        getFilenameFromDisposition(disposition, fallbackFilename),
       );
       message.success("Reporte generado");
     } catch (error) {
@@ -33,5 +32,5 @@ export const useExportUsers = () => {
     }
   };
 
-  return { exportUsers, loading };
+  return { exportExcel, loading };
 };

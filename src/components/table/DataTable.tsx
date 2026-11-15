@@ -177,7 +177,7 @@ export function DataTable<T>({
         </div>
       )}
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-stone-200 bg-white">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-stone-200 bg-surface">
         <div className="overflow-hidden border-b border-stone-200 scrollbar-gutter-stable">
           <table className="w-full table-fixed border-collapse text-left text-sm">
             {colgroup}
@@ -198,7 +198,7 @@ export function DataTable<T>({
 
         <div className="relative flex min-h-0 flex-1 flex-col">
           {loading && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/60">
               <Spin />
             </div>
           )}

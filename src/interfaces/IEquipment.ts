@@ -45,6 +45,11 @@ export interface IEquipmentListRequest extends IBaseListRequest {
   conditions?: string[];
 }
 
+export type IEquipmentFilterParams = Omit<
+  IEquipmentListRequest,
+  "page" | "size"
+>;
+
 export interface ICreateEquipmentRequest {
   name: string;
   serialNumber: string;

@@ -18,7 +18,7 @@ export const Sidebar = () => {
 
   return (
     <aside className="w-15 h-full flex justify-center items-center">
-      <section className="border border-stone-200 rounded-xl p-2 w-full flex flex-col justify-start items-center bg-white shadow-sm">
+      <section className="border border-stone-200 rounded-xl p-2 w-full flex flex-col justify-start items-center bg-surface shadow-sm">
         <img
           src={logo}
           draggable={false}

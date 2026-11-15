@@ -6,7 +6,9 @@ import { DataTable } from "@/components/table/DataTable";
 import { FilterDropdown } from "@/components/table/filters/FilterDropdown";
 import { useUsers } from "@/hooks/users/useUsers";
 import { useRoles } from "@/hooks/roles/useRoles";
-import { useExportUsers } from "@/hooks/users/useExportUsers";
+import { useExportExcel } from "@/hooks/useExportExcel";
+import { UserService } from "@/services/UserService";
+import { buildUserFilterParams } from "@/utils/user";
 import { CreateUserModal } from "./modals/CreateUserModal";
 import { EditUserModal } from "./modals/EditUserModal";
 import { SuspendUserModal } from "./modals/SuspendUserModal";
@@ -24,7 +26,10 @@ export const UsersPage = () => {
   const { roles: roleOptions } = useRoles();
   const { data, pagination, filters, loading, changeFilter, reload } =
     useUsers();
-  const { exportUsers, loading: exporting } = useExportUsers();
+  const { exportExcel, loading: exporting } = useExportExcel(
+    UserService.exportExcel,
+    "usuarios.xlsx",
+  );
 
   const handlers: IUserRowHandlers = {
     onEdit: setEditingUser,
@@ -70,7 +75,7 @@ export const UsersPage = () => {
             <Button
               icon={getIcon("download")}
               loading={exporting}
-              onClick={() => exportUsers(filters)}
+              onClick={() => exportExcel(buildUserFilterParams(filters))}
             >
               Exportar
             </Button>
