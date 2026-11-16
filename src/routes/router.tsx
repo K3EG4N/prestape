@@ -9,6 +9,7 @@ import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { CATALOG_PATH } from "@/constants/routes";
 import type { IRouteHandle } from "@/interfaces/IRoute";
 import { CatalogPage } from "@/pages/catalog/CatalogPage";
+import { SettingsPage } from "@/pages/settings/SettingsPage";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,14 @@ export const router = createBrowserRouter([
             handle: { breadcrumb: "Categorías" } satisfies IRouteHandle,
           },
         ],
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
+        handle: {
+          breadcrumb: "Configuración",
+          roles: [ADMIN_ROLE, SUPERVISOR_ROLE],
+        } satisfies IRouteHandle,
       },
     ],
   },
