@@ -9,6 +9,7 @@ import {
   Tabs,
   Typography,
 } from "antd";
+import { useMemo } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
@@ -28,9 +29,14 @@ import { useAuthContext } from "@/context/useAuthContext";
 import { useCreateLoan } from "@/hooks/loan/useCreateLoan";
 import { useLoanOptions } from "@/hooks/loan/useLoanOptions";
 import { useLendableEquipments } from "@/hooks/loan/useLendableEquipments";
-import { createLoanSchema } from "@/schemas/loan/create.loan.schema";
+import { useLoanRules } from "@/hooks/loan/useLoanRules";
+import { buildCreateLoanSchema } from "@/schemas/loan/create.loan.schema";
 import { hasAnyRole } from "@/utils/auth";
-import { getSelectedLoanItems } from "@/utils/loan";
+import {
+  getBusinessDisabledTime,
+  getSelectedLoanItems,
+  isClosedDay,
+} from "@/utils/loan";
 import { LOAN_ITEM_COLUMNS } from "../columns/loanItemColumns";
 import type { CreateLoanSchema } from "@/schemas/loan/create.loan.schema";
 import type { IDisclosure } from "@/interfaces/IDisclosure";
@@ -40,6 +46,11 @@ export const CreateLoanModal = ({ open, onClose, reload }: IDisclosure) => {
   const canManage = hasAnyRole(profile, [ADMIN_ROLE, SUPERVISOR_ROLE]);
   const { createLoan, loading } = useCreateLoan();
   const { options, loading: loadingOptions } = useLoanOptions(open, canManage);
+  const { rules } = useLoanRules(open);
+  const schema = useMemo(
+    () => buildCreateLoanSchema(rules, canManage),
+    [rules, canManage],
+  );
   const {
     equipments,
     loading: loadingEquipments,
@@ -52,17 +63,22 @@ export const CreateLoanModal = ({ open, onClose, reload }: IDisclosure) => {
     handleSubmit,
     formState: { errors },
   } = useForm<CreateLoanSchema>({
-    resolver: zodResolver(createLoanSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       ...CREATE_LOAN_DEFAULT_VALUES,
       requesterId: canManage ? undefined : profile?.userId,
     },
     mode: "onTouched",
   });
-  const [requesterId, equipmentIds, kitId] = useWatch({
+  const [requesterId, equipmentIds, kitId, scheduledPickupAt] = useWatch({
     control,
-    name: ["requesterId", "equipmentIds", "kitId"],
+    name: ["requesterId", "equipmentIds", "kitId", "scheduledPickupAt"],
   });
+  const businessHours = rules?.businessHours ?? [];
+  const maxEquipments = rules?.maxEquipments ?? LOAN_MAX_EQUIPMENTS;
+  const latestReturnDay = rules
+    ? scheduledPickupAt?.add(rules.maxDurationDays, "day")
+    : undefined;
 
   const requesterCode = canManage
     ? (options.requesters.find((requester) => requester.id === requesterId)
@@ -179,7 +195,12 @@ export const CreateLoanModal = ({ open, onClose, reload }: IDisclosure) => {
             label="Fecha de recojo"
             showTime={{ format: "HH:mm", minuteStep: LOAN_MINUTE_STEP }}
             format={DATE_TIME_DISPLAY_FORMAT}
-            disabledDate={(date) => date.isBefore(dayjs(), "day")}
+            disabledDate={(date) =>
+              date.isBefore(dayjs(), "day") || isClosedDay(businessHours, date)
+            }
+            disabledTime={(date) =>
+              getBusinessDisabledTime(businessHours, date)
+            }
             size="middle"
           />
           <FormDatePicker
@@ -189,7 +210,16 @@ export const CreateLoanModal = ({ open, onClose, reload }: IDisclosure) => {
             label="Fecha de devolución"
             showTime={{ format: "HH:mm", minuteStep: LOAN_MINUTE_STEP }}
             format={DATE_TIME_DISPLAY_FORMAT}
-            disabledDate={(date) => date.isBefore(dayjs(), "day")}
+            disabledDate={(date) =>
+              date.isBefore(scheduledPickupAt ?? dayjs(), "day") ||
+              Boolean(
+                latestReturnDay && date.isAfter(latestReturnDay, "day"),
+              ) ||
+              isClosedDay(businessHours, date)
+            }
+            disabledTime={(date) =>
+              getBusinessDisabledTime(businessHours, date)
+            }
             size="middle"
           />
         </div>
@@ -208,7 +238,7 @@ export const CreateLoanModal = ({ open, onClose, reload }: IDisclosure) => {
                     <Select
                       {...field}
                       mode="multiple"
-                      maxCount={LOAN_MAX_EQUIPMENTS}
+                      maxCount={maxEquipments}
                       showSearch
                       filterOption={false}
                       onSearch={searchEquipments}

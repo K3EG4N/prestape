@@ -21,7 +21,39 @@ export interface ISettingsRowProps {
 }
 
 export interface ISettingsBusinessDay {
+  day: number;
   open: boolean;
   opensAt: string;
   closesAt: string;
+}
+
+export interface ISettingsRoleLimit {
+  roleId: number;
+  roleName: string;
+  roleLabel: string;
+  maxEquipments: number;
+  maxActiveLoans: number;
+}
+
+export interface ISettings {
+  toleranceMinutes: number;
+  maxDurationDays: number;
+  minAdvanceHours: number;
+  autoCancelHours: number;
+  roleLimits: ISettingsRoleLimit[];
+  businessHours: ISettingsBusinessDay[];
+  updatedAt: string;
+  updatedBy: string | null;
+}
+
+export interface IUpdateSettingsRequest {
+  toleranceMinutes: number;
+  maxDurationDays: number;
+  minAdvanceHours: number;
+  autoCancelHours: number;
+  roleLimits: Pick<
+    ISettingsRoleLimit,
+    "roleId" | "maxEquipments" | "maxActiveLoans"
+  >[];
+  businessHours: ISettingsBusinessDay[];
 }

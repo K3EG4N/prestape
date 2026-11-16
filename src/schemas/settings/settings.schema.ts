@@ -14,21 +14,24 @@ export const settingsSchema = z.object({
   minAdvanceHours: wholeNumber("la anticipación mínima", 0, 72),
   roleLimits: z.array(
     z.object({
-      roleName: z.string(),
+      roleId: z.number(),
       roleLabel: z.string(),
       maxEquipments: wholeNumber("el máximo de equipos", 1, 10),
       maxActiveLoans: wholeNumber("el máximo de préstamos", 1, 10),
     }),
   ),
-  businessHours: z.array(
-    z.object({
-      day: z.number(),
-      label: z.string(),
-      open: z.boolean(),
-      opensAt: z.string(),
-      closesAt: z.string(),
+  businessHours: z
+    .array(
+      z.object({
+        day: z.number(),
+        open: z.boolean(),
+        opensAt: z.string(),
+        closesAt: z.string(),
+      }),
+    )
+    .refine((days) => days.some((day) => day.open), {
+      error: "El laboratorio debe atender al menos un día a la semana",
     }),
-  ),
 });
 
 export type SettingsSchema = z.infer<typeof settingsSchema>;

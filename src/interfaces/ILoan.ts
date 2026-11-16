@@ -3,6 +3,7 @@ import type { IBaseFilters, IBaseListRequest } from "./IBaseFilter";
 import type { IDisclosure } from "./IDisclosure";
 import type { DateRange } from "./IFilter";
 import type { EquipmentCondition } from "./IEquipment";
+import type { ISettingsBusinessDay } from "./ISettings";
 
 export type LoanStatus =
   | "PENDING_PICKUP"
@@ -130,6 +131,16 @@ export interface IRegisterPickupModalProps extends IDisclosure {
 
 export interface IRegisterReturnModalProps extends IDisclosure {
   loan: ILoan | null;
+}
+
+export interface ILoanRules {
+  toleranceMinutes: number;
+  maxDurationDays: number;
+  minAdvanceHours: number;
+  autoCancelHours: number;
+  maxEquipments: number | null;
+  maxActiveLoans: number | null;
+  businessHours: ISettingsBusinessDay[];
 }
 
 export interface ILoanOptions {
