@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { AuthFormHeader } from "../../auth/AuthFormHeader";
 import { useNavigate } from "react-router-dom";
+import { LOANS_PATH } from "@/constants/routes";
 import type { ILoginRequest } from "@/interfaces/IAuth";
 
 export const LoginForm = () => {
@@ -37,7 +38,7 @@ export const LoginForm = () => {
       return;
     }
 
-    navigate("/");
+    navigate(LOANS_PATH);
   };
 
   return (

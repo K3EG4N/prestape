@@ -53,8 +53,8 @@ export const DeleteEquipmentModal = ({
             <span className="font-mono">{equipment?.code}</span>)?
           </Typography.Paragraph>
           <Typography.Paragraph type="secondary" className="text-[13px]">
-            El equipo dejará de aparecer en el catálogo y no podrá prestarse.
-            Si solo dejó de usarse, puedes marcarlo como De baja.
+            El equipo dejará de aparecer en el catálogo y no podrá prestarse. Si
+            solo dejó de usarse, puedes marcarlo como De baja.
           </Typography.Paragraph>
         </>
       )}

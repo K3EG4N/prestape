@@ -11,6 +11,7 @@ import {
   EQUIPMENT_AVAILABILITY_OPTIONS,
   EQUIPMENT_CONDITION_OPTIONS,
   MANUAL_AVAILABILITY_OPTIONS,
+  DELIVERABLE_CONDITION_OPTIONS,
 } from "@/constants/equipment";
 import { editEquipmentSchema } from "@/schemas/equipment/edit.equipment.schema";
 import { toEditEquipmentFormValues } from "@/utils/equipment";
@@ -77,7 +78,8 @@ export const EditEquipmentModal = ({
         )}
       </Flex>
       <Typography.Paragraph type="secondary">
-        Actualice los datos, la disponibilidad y la condición del equipo.
+        Actualice los datos, la disponibilidad y la condición del equipo. Un
+        equipo dañado solo puede estar en mantenimiento o de baja.
       </Typography.Paragraph>
 
       <Form layout="vertical" onFinish={submit}>
@@ -124,7 +126,11 @@ export const EditEquipmentModal = ({
             control={control}
             name="condition"
             label="Condición"
-            options={EQUIPMENT_CONDITION_OPTIONS}
+            options={
+              isLoaned
+                ? DELIVERABLE_CONDITION_OPTIONS
+                : EQUIPMENT_CONDITION_OPTIONS
+            }
             size="middle"
           />
         </div>
