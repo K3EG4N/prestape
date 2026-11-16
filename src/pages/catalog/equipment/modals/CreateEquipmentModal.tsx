@@ -14,7 +14,11 @@ import { createEquipmentSchema } from "@/schemas/equipment/create.equipment.sche
 import type { CreateEquipmentSchema } from "@/schemas/equipment/create.equipment.schema";
 import type { IDisclosure } from "@/interfaces/IDisclosure";
 
-export const CreateEquipmentModal = ({ open, onClose, reload }: IDisclosure) => {
+export const CreateEquipmentModal = ({
+  open,
+  onClose,
+  reload,
+}: IDisclosure) => {
   const { createEquipment, loading } = useCreateEquipment();
   const { categories } = useCategoryOptions();
   const { control, reset, handleSubmit } = useForm<CreateEquipmentSchema>({
@@ -54,7 +58,8 @@ export const CreateEquipmentModal = ({ open, onClose, reload }: IDisclosure) => 
     >
       <Typography.Title level={4}>Crear equipo</Typography.Title>
       <Typography.Paragraph type="secondary">
-        El código del equipo se genera automáticamente al registrarlo.
+        El código del equipo se genera automáticamente al registrarlo. Si lo
+        registras como dañado, queda en mantenimiento.
       </Typography.Paragraph>
 
       <Form layout="vertical" onFinish={submit}>

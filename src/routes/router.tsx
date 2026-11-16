@@ -7,8 +7,9 @@ import { HomePage } from "@/pages/home/HomePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { CATALOG_PATH } from "@/constants/routes";
-import type { IRouteHandle } from "@/interfaces/IRoute";
 import { CatalogPage } from "@/pages/catalog/CatalogPage";
+import { LoansPage } from "@/pages/loan/LoansPage";
+import type { IRouteHandle } from "@/interfaces/IRoute";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,11 @@ export const router = createBrowserRouter([
             handle: { breadcrumb: "Categorías" } satisfies IRouteHandle,
           },
         ],
+      },
+      {
+        path: "prestamos",
+        element: <LoansPage />,
+        handle: { breadcrumb: "Prestamos" } satisfies IRouteHandle,
       },
     ],
   },

@@ -8,6 +8,7 @@ export interface IUserProfileRole {
 export interface IUserProfilePerson {
   code: string;
   displayName: string;
+  shortName: string;
   documentNumber: string;
 }
 
