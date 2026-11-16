@@ -3,7 +3,7 @@ import { HOME_PATH } from "@/constants/routes";
 import axios, { AxiosError } from "axios";
 
 export const httpClient = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 httpClient.interceptors.request.use((config) => {
