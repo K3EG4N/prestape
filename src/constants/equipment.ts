@@ -48,9 +48,17 @@ export const EQUIPMENT_CONDITION_OPTIONS = (
   label: EQUIPMENT_CONDITION_DISPLAY[value].label,
 }));
 
-export const MANUAL_AVAILABILITY_OPTIONS = EQUIPMENT_AVAILABILITY_OPTIONS.filter(
-  (option) => option.value !== "LOANED",
+export const DAMAGED_EQUIPMENT_AVAILABILITIES: EquipmentAvailability[] = [
+  "IN_MAINTENANCE",
+  "RETIRED",
+];
+
+export const DELIVERABLE_CONDITION_OPTIONS = EQUIPMENT_CONDITION_OPTIONS.filter(
+  (option) => option.value !== "DAMAGED",
 );
+
+export const MANUAL_AVAILABILITY_OPTIONS =
+  EQUIPMENT_AVAILABILITY_OPTIONS.filter((option) => option.value !== "LOANED");
 
 export const CREATE_EQUIPMENT_DEFAULT_VALUES: DefaultValues<CreateEquipmentSchema> =
   {
