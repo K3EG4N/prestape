@@ -26,7 +26,7 @@ export const LOAN_OPTIONS_SEARCH_DELAY = 400;
 
 export const LOAN_MINUTE_STEP = 15;
 
-export const LOAN_MAX_EQUIPMENTS = 2;
+export const LOAN_MAX_EQUIPMENTS = 10;
 
 export const CREATE_LOAN_DEFAULT_VALUES: DefaultValues<CreateLoanSchema> = {
   requesterId: undefined,

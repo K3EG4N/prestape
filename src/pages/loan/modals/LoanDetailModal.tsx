@@ -2,7 +2,6 @@ import { Button, Flex, Modal, Table, Tag, Typography } from "antd";
 import { EmptyValue } from "@/components/ui/EmptyValue";
 import { LOAN_STATUS_DISPLAY } from "@/constants/loan";
 import { formatDateTime } from "@/utils/date";
-import { isLate } from "@/utils/loan";
 import { LOAN_DETAIL_ITEM_COLUMNS } from "../columns/loanDetailItemColumns";
 import { LoanDetailField } from "../components/LoanDetailField";
 import { LoanDetailSection } from "../components/LoanDetailSection";
@@ -112,7 +111,7 @@ export const LoanDetailModal = ({
               actualLabel="Recibido"
               handledBy={loan.receivedBy}
               handledByLabel="Recibido por"
-              late={isLate(loan.scheduledReturnAt, loan.returnedAt)}
+              late={loan.status === "RETURNED_LATE"}
             />
           </div>
 

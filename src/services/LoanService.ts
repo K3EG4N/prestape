@@ -7,6 +7,7 @@ import type {
   ILoan,
   ILoanListRequest,
   ILoanRequesterOption,
+  ILoanRules,
   IRegisterPickupRequest,
   IRegisterReturnRequest,
 } from "@/interfaces/ILoan";
@@ -50,6 +51,12 @@ const cancel = async (id: number) => {
   return response.data;
 };
 
+const rules = async () => {
+  const response =
+    await httpClient.get<IApiResponse<ILoanRules>>("/loans/rules");
+  return response.data;
+};
+
 const requesterOptions = async () => {
   const response = await httpClient.get<IApiResponse<ILoanRequesterOption[]>>(
     "/loans/options/requesters",
@@ -77,6 +84,7 @@ export const LoanService = {
   registerPickup,
   registerReturn,
   cancel,
+  rules,
   requesterOptions,
   equipmentOptions,
   kitOptions,

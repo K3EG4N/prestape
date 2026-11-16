@@ -5,9 +5,7 @@ export const LoanDetailSection = ({
   children,
 }: ILoanDetailSectionProps) => (
   <div className="flex flex-col gap-1">
-    <span className="text-[13px] font-semibold text-stone-800">
-      {title}
-    </span>
+    <span className="text-[13px] font-semibold text-stone-800">{title}</span>
     {children}
   </div>
 );

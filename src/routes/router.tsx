@@ -8,6 +8,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { CATALOG_PATH } from "@/constants/routes";
 import { CatalogPage } from "@/pages/catalog/CatalogPage";
+import { SettingsPage } from "@/pages/settings/SettingsPage";
 import { LoansPage } from "@/pages/loan/LoansPage";
 import type { IRouteHandle } from "@/interfaces/IRoute";
 
@@ -53,6 +54,14 @@ export const router = createBrowserRouter([
             handle: { breadcrumb: "Categorías" } satisfies IRouteHandle,
           },
         ],
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
+        handle: {
+          breadcrumb: "Configuración",
+          roles: [ADMIN_ROLE, SUPERVISOR_ROLE],
+        } satisfies IRouteHandle,
       },
       {
         path: "prestamos",
