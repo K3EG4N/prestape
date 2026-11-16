@@ -27,6 +27,7 @@ import {
 import {
   CloudDownload,
   Columns3,
+  HandshakeIcon,
   House,
   Keyboard,
   Layers,
@@ -145,7 +146,10 @@ export const iconResolver = {
     outlined: <Keyboard size={16} />,
   },
   package: {
-    outlined: <Package strokeWidth={1.5} size={17}/>,
+    outlined: <Package strokeWidth={1.5} size={17} />,
+  },
+  loan: {
+    outlined: <HandshakeIcon strokeWidth={1.7} />,
   },
 } satisfies Record<string, IconEntry>;
 

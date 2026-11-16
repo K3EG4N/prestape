@@ -5,6 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SidebarSkeleton } from "./SiderbarSkeleton";
 import { SidebarItem } from "./SiderbarItem";
 import { getSection } from "@/utils/routes";
+import { hasAnyRole } from "@/utils/auth";
+import { useAuthContext } from "@/context/useAuthContext";
+import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 
 const SETTINGS_URL = "/settings";
 
@@ -12,6 +15,8 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { menuItems, loading } = useMenuItems();
+  const { profile } = useAuthContext();
+  const canManage = hasAnyRole(profile, [ADMIN_ROLE, SUPERVISOR_ROLE]);
 
   const isItemActive = (url: string) =>
     getSection(pathname) === getSection(url);
@@ -44,13 +49,17 @@ export const Sidebar = () => {
           )}
         </Flex>
 
-        <Divider size="small" className="border-stone-300!" />
-        <SidebarItem
-          title="Configuración"
-          icon="settings"
-          active={isItemActive(SETTINGS_URL)}
-          onClick={() => navigate(SETTINGS_URL)}
-        />
+        {canManage && (
+          <>
+            <Divider size="small" className="border-stone-300!" />
+            <SidebarItem
+              title="Configuración"
+              icon="settings"
+              active={isItemActive(SETTINGS_URL)}
+              onClick={() => navigate(SETTINGS_URL)}
+            />
+          </>
+        )}
       </section>
     </aside>
   );

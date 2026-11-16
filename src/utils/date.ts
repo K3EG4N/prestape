@@ -1,4 +1,5 @@
-import { DATE_LOCALE } from "@/constants/date";
+import dayjs from "dayjs";
+import { DATE_LOCALE, DATE_TIME_DISPLAY_FORMAT } from "@/constants/date";
 import type { DateRange } from "@/interfaces/IFilter";
 
 const dateFormatter = new Intl.DateTimeFormat(DATE_LOCALE, {
@@ -14,3 +15,6 @@ export const toInstantRange = (range: DateRange | null) => ({
   from: range?.[0].startOf("day").toISOString(),
   to: range?.[1].add(1, "day").startOf("day").toISOString(),
 });
+
+export const formatDateTime = (value: string | Date): string =>
+  dayjs(value).format(DATE_TIME_DISPLAY_FORMAT);
