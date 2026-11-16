@@ -17,6 +17,11 @@ export interface ILoanRequester {
   code: string;
 }
 
+export interface ILoanKit {
+  code: string;
+  name: string;
+}
+
 export interface ILoanItem {
   id: number;
   code: string;
@@ -30,6 +35,7 @@ export interface ILoan {
   id: number;
   code: string;
   requester: ILoanRequester;
+  kit: ILoanKit | null;
   items: ILoanItem[];
   scheduledPickupAt: string;
   pickedUpAt: string | null;
@@ -37,6 +43,8 @@ export interface ILoan {
   returnedAt: string | null;
   deliveredBy: string | null;
   receivedBy: string | null;
+  cancelledAt: string | null;
+  registeredBy: string | null;
   notes: string | null;
   status: LoanStatus;
   createdAt: string;
