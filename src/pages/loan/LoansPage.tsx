@@ -5,10 +5,13 @@ import { PageHeader } from "@/components/PageHeader";
 import { DataTable } from "@/components/table/DataTable";
 import { FilterDropdown } from "@/components/table/filters/FilterDropdown";
 import { useLoans } from "@/hooks/loan/useLoans";
+import { useExportExcel } from "@/hooks/useExportExcel";
 import { useAuthContext } from "@/context/useAuthContext";
 import { ADMIN_ROLE, SUPERVISOR_ROLE } from "@/constants/roles";
 import { LOAN_STATUS_FILTER_OPTIONS } from "@/constants/loan";
+import { LoanService } from "@/services/LoanService";
 import { hasAnyRole } from "@/utils/auth";
+import { buildLoanFilterParams } from "@/utils/loan";
 import { getIcon } from "@/utils/getIcon";
 import { getLoanColumns } from "./columns/loanColumns";
 import { LoanDetailModal } from "./modals/LoanDetailModal";
@@ -22,6 +25,10 @@ export const LoansPage = () => {
   const { profile } = useAuthContext();
   const { data, pagination, filters, loading, changeFilter, reload } =
     useLoans();
+  const { exportExcel, loading: exporting } = useExportExcel(
+    LoanService.exportExcel,
+    "prestamos.xlsx",
+  );
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [viewingLoan, setViewingLoan] = useState<ILoan | null>(null);
   const [cancellingLoan, setCancellingLoan] = useState<ILoan | null>(null);
@@ -68,6 +75,15 @@ export const LoansPage = () => {
             <Button icon={getIcon("refresh")} onClick={reload}>
               Actualizar
             </Button>
+            {canManage && (
+              <Button
+                icon={getIcon("download")}
+                loading={exporting}
+                onClick={() => exportExcel(buildLoanFilterParams(filters))}
+              >
+                Exportar
+              </Button>
+            )}
           </>
         }
         rightActions={

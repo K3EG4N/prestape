@@ -1,10 +1,15 @@
 import { httpClient } from "./api/http-config";
-import type { IApiResponse, IPageResponse } from "@/interfaces/IApiResponse";
+import type {
+  IApiResponse,
+  IFileResponse,
+  IPageResponse,
+} from "@/interfaces/IApiResponse";
 import type {
   ICreateLoanRequest,
   ILendableEquipmentOption,
   ILendableKitOption,
   ILoan,
+  ILoanFilterParams,
   ILoanListRequest,
   ILoanRequesterOption,
   ILoanRules,
@@ -23,6 +28,21 @@ const list = async (request: ILoanListRequest, signal?: AbortSignal) => {
   );
 
   return response.data;
+};
+
+const exportExcel = async (
+  params: ILoanFilterParams,
+): Promise<IFileResponse> => {
+  const response = await httpClient.get<Blob>("/loans/export", {
+    params,
+    paramsSerializer: { indexes: null },
+    responseType: "blob",
+  });
+
+  return {
+    blob: response.data,
+    disposition: response.headers["content-disposition"] as string | undefined,
+  };
 };
 
 const create = async (request: ICreateLoanRequest) => {
@@ -80,6 +100,7 @@ const kitOptions = async () => {
 
 export const LoanService = {
   list,
+  exportExcel,
   create,
   registerPickup,
   registerReturn,
